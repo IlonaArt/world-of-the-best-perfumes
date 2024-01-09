@@ -22,11 +22,7 @@ const StaticPropsDetail = ({ item, errors }: Props) => {
   }
 
   return (
-    <Layout
-      title={`${
-        item ? item.name : 'User Detail'
-      } | Next.js + TypeScript Example`}
-    >
+    <Layout title={`${item ? item.name : 'User Detail'} | Next.js + TypeScript Example`}>
       {item && <ListDetail item={item} />}
     </Layout>
   )
@@ -36,7 +32,7 @@ export default StaticPropsDetail
 
 export const getStaticPaths: GetStaticPaths = async () => {
   // Get the paths we want to pre-render based on users
-  const paths = sampleUserData.map((user) => ({
+  const paths = sampleUserData.map(user => ({
     params: { id: user.id.toString() },
   }))
 
@@ -51,7 +47,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const id = params?.id
-    const item = sampleUserData.find((data) => data.id === Number(id))
+    const item = sampleUserData.find(data => data.id === Number(id))
     // By returning { props: item }, the StaticPropsDetail component
     // will receive `item` as a prop at build time
     return { props: { item } }
