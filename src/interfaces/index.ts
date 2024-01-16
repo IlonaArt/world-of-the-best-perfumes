@@ -5,6 +5,9 @@ export interface Perfume {
   price: number
   discount: number
   description: string
+  amount: number
+  type: number
+  family: Array<string>
 }
 
 export interface PerfumeList {

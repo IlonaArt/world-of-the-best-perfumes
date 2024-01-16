@@ -1,14 +1,14 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
+import RootLayout from '../components/RootLayout'
 
 const AboutPage = () => (
-  <Layout title="About | World of the best perfumes">
+  <RootLayout title="About | World of the best perfumes">
     <h1>About</h1>
     <p>This is the about page</p>
     <p>
       <Link href="/">Go home</Link>
     </p>
-  </Layout>
+  </RootLayout>
 )
 
 export default AboutPage
