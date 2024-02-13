@@ -10,7 +10,7 @@ interface Props {
 }
 
 const RootLayout = ({ children, title = 'This is the default title' }: Props) => (
-  <Box bg="brand.bg">
+  <Box bg={theme.colors.brand.bg}>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />

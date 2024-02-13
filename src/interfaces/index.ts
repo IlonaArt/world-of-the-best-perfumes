@@ -2,11 +2,11 @@ export interface Perfume {
   title: string
   photo: string
   brand: string
-  price: number
-  discount: number
+  price: Array<number>
+  discount: Array<number>
   description: string
-  amount: number
-  type: number
+  volume: Array<number>
+  type: string
   family: Array<string>
 }
 
