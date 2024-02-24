@@ -2,23 +2,23 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import searchIcon from '../../public/search.svg'
 import { Box, Button, Input } from '@chakra-ui/react'
-import theme from '../../../theme'
+import theme from '../../theme'
 
 const SearchField = () => {
   const [showInput, setShowInput] = useState<boolean>(false)
-  
+
   const handleEscape = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       setShowInput(false)
     }
   }
 
   useEffect(() => {
     if (showInput === true) {
-      window.addEventListener("keydown", handleEscape)
+      window.addEventListener('keydown', handleEscape)
     }
     return () => {
-      window.removeEventListener("keydown", handleEscape)
+      window.removeEventListener('keydown', handleEscape)
     }
   }, [showInput])
 
@@ -26,10 +26,15 @@ const SearchField = () => {
     <Box height="24px">
       {showInput ? (
         <label>
-          <Input name="search" type="search" onBlur={() => setShowInput(false)}/>
+          <Input name="search" type="search" onBlur={() => setShowInput(false)} />
         </label>
       ) : (
-        <Button backgroundColor={theme.colors.transparent} height="24px" p={0} onClick={() => setShowInput(true)}>
+        <Button
+          backgroundColor={theme.colors.transparent}
+          height="24px"
+          p={0}
+          onClick={() => setShowInput(true)}
+        >
           <Image priority src={searchIcon} alt="search icon" />
         </Button>
       )}

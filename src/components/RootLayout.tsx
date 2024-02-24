@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
 import { ChakraProvider } from '@chakra-ui/react'
-import theme from '../../theme'
+import theme from '../theme'
 import { Box } from '@chakra-ui/react'
 
 interface Props {
@@ -15,6 +15,7 @@ const RootLayout = ({ children, title = 'This is the default title' }: Props) =>
       <title>{title}</title>
       <meta charSet="utf-8" />
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <link rel="icon" href="/logo-favicon.png" sizes="180x180" />
     </Head>
     <ChakraProvider theme={theme}>{children}</ChakraProvider>
   </Box>

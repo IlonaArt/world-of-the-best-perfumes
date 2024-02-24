@@ -1,20 +1,7 @@
-import { extendTheme } from '@chakra-ui/react'
-
-const theme = extendTheme({
+export const typography = {
   fonts: {
     body: 'Inter, sans-serif',
     heading: 'Inter, sans-serif',
-  },
-  colors: {
-    brand: {
-      bg: '#FFF9F5',
-    },
-    transparent: 'transparent',
-    black: '#121212',
-    white: '#fff',
-    beige: '#D0BDB0',
-    bgNav: '#F1EEEC',
-    attention: '#CA17A2',
   },
   fontSizes: {
     xs: '14px',
@@ -48,11 +35,4 @@ const theme = extendTheme({
     '3xl': '36px',
     '4xl': '42px',
   },
-  radii: {
-    none: '0',
-    sm: '4px',
-    md: '8px',
-  },
-})
-
-export default theme
+}

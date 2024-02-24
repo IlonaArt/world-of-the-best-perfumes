@@ -32,7 +32,7 @@ const IMAGES_SOURCES = {
 
 const PerfumeImage = ({ photo, title }: { photo: string; title: string }) => {
   return (
-    <Box width={92} height={122} marginBottom="10px">
+    <Box width={92} height={122}>
       <Image src={IMAGES_SOURCES[photo]} alt={title} />
     </Box>
   )

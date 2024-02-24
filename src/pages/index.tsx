@@ -1,7 +1,7 @@
 import Card from '../components/Card'
 import Header from '../components/Header/Header'
 import RootLayout from '../components/RootLayout'
-import { Box, Heading, Flex, Text } from '@chakra-ui/react'
+import { Box, Heading, Flex, Grid, Text } from '@chakra-ui/react'
 import data from '../public/dataFragrances.json'
 import { Perfume } from '../interfaces'
 
@@ -10,28 +10,39 @@ const IndexPage = () => {
   return (
     <RootLayout title="Home | World of the best perfumes">
       <Header />
-      <Box px={{ base: '16px', md: '100px' }}>
+      <Box px={{ base: '16px', lg: '40px', xl: '100px' }}>
         <Heading
           as="h1"
           fontSize={{ base: '2xl', md: '4xl' }}
           fontWeight="light"
           lineHeight={{ base: '3xl', md: '4xl' }}
           letterSpacing="-2px"
-          mt={{ base: '40px', md: '60px' }}
-          mb={{ base: '50px', md: '80px' }}
+          mt={{ base: '40px', xl: '60px' }}
+          mb={{ base: '40px', xl: '80px' }}
         >
           Welcome to our world of the best perfumes!
         </Heading>
-        <Flex gap="60px">
-          <Box maxW="296px">
+        <Flex
+          gap={{ base: '20px', xl: '60px' }}
+          direction={{ base: 'column', xl: 'row' }}
+        >
+          <Flex
+            flexShrink={0}
+            minW={{ base: 'auto', xl: '296px' }}
+            justify={{ base: 'space-between', xl: 'initial' }}
+            direction={{ base: 'row', xl: 'column' }}
+          >
             <Text>Sorting</Text>
             <Text>Filters</Text>
-          </Box>
-          <Flex
+          </Flex>
+          <Grid
             as="ul"
-            flexWrap="wrap"
-            justify="flex-end"
-            gap={{ base: '16px', md: '40px ' }}
+            templateColumns={{
+              base: 'repeat(1, 1fr)',
+              md: 'repeat(2, 1fr)',
+              lg: 'repeat(3, 1fr)',
+            }}
+            gap={{ base: '16px', lg: '40px' }}
             listStyleType="none"
           >
             {dataFragrances.map(item => (
@@ -44,7 +55,7 @@ const IndexPage = () => {
                 volume={item.volume}
               />
             ))}
-          </Flex>
+          </Grid>
         </Flex>
       </Box>
     </RootLayout>
