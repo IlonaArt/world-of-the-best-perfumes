@@ -30,12 +30,14 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
       bg="white"
       filter="drop-shadow(#E9E9E9 0 4px 10px)"
       borderRadius={theme.radii.sm}
-      padding="24px"
+      pb={{ base: 4, md: 6 }}
+      pt={{ base: '44px', md: 6 }}
+      px={{ base: 3, md: 6 }}
     >
       <Flex
         direction={{ base: 'row', md: 'column' }}
         align={{ base: 'flex-start', md: 'center' }}
-        gap={{ base: 4, md: '10px' }}
+        gap={{ base: 0, md: '10px' }}
         mb={6}
       >
         <PerfumeImage photo={photo} title={title} />
@@ -44,7 +46,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
             as="h2"
             fontSize="lg"
             lineHeight="lg"
-            mb={1}
+            mb={{ base: 2, md: 1 }}
             color={theme.colors.black}
           >
             {brand}
@@ -55,6 +57,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
           <Flex as="ul" gap={2} listStyleType="none">
             {volume.map(ml => (
               <Text
+                key={ml}
                 fontSize="xs"
                 lineHeight="lg"
                 as="li"
@@ -75,12 +78,14 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
       </Flex>
 
       <Button width="100%">Buy now</Button>
-      <Image
-        className={styles.heartIcon}
-        src={isFavorite ? heartIconFilled : heartIconUnfilled}
-        alt="Add to favorites"
-        onClick={() => setIsFavorite(!isFavorite)}
-      />
+      <Button variant="transparent" position="absolute" top={4} right="10px" px={3}>
+        <Image
+          className={styles.heartIcon}
+          src={isFavorite ? heartIconFilled : heartIconUnfilled}
+          alt="Add to favorites"
+          onClick={() => setIsFavorite(!isFavorite)}
+        />
+      </Button>
       <Link
         as={NextLink}
         href=""

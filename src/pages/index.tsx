@@ -1,7 +1,7 @@
 import Card from '../components/Card'
 import Header from '../components/Header/Header'
 import RootLayout from '../components/RootLayout'
-import { Box, Heading, Flex, Grid, Text } from '@chakra-ui/react'
+import { Box, Heading, Flex, Grid, Text, Select } from '@chakra-ui/react'
 import data from '../public/dataFragrances.json'
 import { Perfume } from '../interfaces'
 
@@ -31,9 +31,27 @@ const IndexPage = () => {
             minW={{ base: 'auto', xl: '296px' }}
             justify={{ base: 'space-between', xl: 'initial' }}
             direction={{ base: 'row', xl: 'column' }}
+            mb={{ base: 0, xl: 5 }}
+            gap="40px"
           >
-            <Text>Sorting</Text>
-            <Text>Filters</Text>
+            <Box>
+              <Text mb={{ base: 0, xl: '40px' }} as="span">
+                Sorting
+              </Text>
+              <Select size="lg" variant="outline" placeholder="A-Z">
+                <option value="alphabet a-z">A-Z</option>
+                <option value="alphabet z-a">Z-A</option>
+              </Select>
+            </Box>
+            <Box>
+              <Text mb={{ base: 0, xl: '40px' }} as="span">
+                Filters
+              </Text>
+              <Select size="lg" variant="outline" placeholder="lower price">
+                <option value="lower price">lower price</option>
+                <option value="higher price">higher price</option>
+              </Select>
+            </Box>
           </Flex>
           <Grid
             as="ul"
@@ -41,12 +59,16 @@ const IndexPage = () => {
               base: 'repeat(1, 1fr)',
               md: 'repeat(2, 1fr)',
               lg: 'repeat(3, 1fr)',
+              '2xl': 'repeat(4, 1fr)',
             }}
+            alignSelf="flex-end"
+            flexGrow={1}
             gap={{ base: '16px', lg: '40px' }}
             listStyleType="none"
           >
             {dataFragrances.map(item => (
               <Card
+                key={item.title}
                 photo={item.photo}
                 title={item.title}
                 brand={item.brand}

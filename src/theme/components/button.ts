@@ -21,11 +21,23 @@ const outline = defineStyle({
     bg: colors.black,
     color: colors.white,
   },
-  _focus: {
+  _focusVisible: {
     bg: colors.white,
     borderColor: colors.attention,
     border: '2px solid',
     color: colors.black,
+  },
+})
+
+const transparent = defineStyle({
+  border: 'none',
+  borderColor: 'transparent',
+  _hover: {
+    bg: 'transparent',
+  },
+  _focusVisible: {
+    borderColor: colors.attention,
+    border: '2px solid',
   },
 })
 
@@ -48,6 +60,7 @@ const sizes = {
 
 const variants = {
   outline,
+  transparent,
 }
 
 export const Button = defineStyleConfig({
