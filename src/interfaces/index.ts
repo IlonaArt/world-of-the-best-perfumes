@@ -13,3 +13,5 @@ export interface Perfume {
 export interface PerfumeList {
   [id: string]: Perfume
 }
+
+export type Page = 'home' | 'catalogue'

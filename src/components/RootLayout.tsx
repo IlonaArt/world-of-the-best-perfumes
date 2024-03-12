@@ -3,13 +3,17 @@ import Head from 'next/head'
 import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 import { Box } from '@chakra-ui/react'
+import Header from './Header/Header'
+import Navigation from './Navigation'
+import { Page } from '../interfaces'
 
 interface Props {
   children?: ReactNode
   title?: string
+  page: Page
 }
 
-const RootLayout = ({ children, title = 'This is the default title' }: Props) => (
+const RootLayout = ({ children, title = 'World of the best perfumes', page }: Props) => (
   <Box bg={theme.colors.brand.bg}>
     <Head>
       <title>{title}</title>
@@ -17,7 +21,11 @@ const RootLayout = ({ children, title = 'This is the default title' }: Props) =>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       <link rel="icon" href="/favicon.ico" sizes="any" />
     </Head>
-    <ChakraProvider theme={theme}>{children}</ChakraProvider>
+    <ChakraProvider theme={theme}>
+      <Header />
+      <Navigation page={page} />
+      {children}
+    </ChakraProvider>
   </Box>
 )
 
