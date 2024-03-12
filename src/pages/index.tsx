@@ -1,12 +1,21 @@
 import Card from '../components/Card'
 import Header from '../components/Header/Header'
 import RootLayout from '../components/RootLayout'
-import { Box, Heading, Flex, Grid, Text, Select } from '@chakra-ui/react'
-import data from '../public/dataFragrances.json'
+import { Box, Heading, Flex, Grid, Text, Select, Spinner } from '@chakra-ui/react'
 import { Perfume } from '../interfaces'
+import theme from '../theme'
+import { useEffect, useState } from 'react'
+import { fetchData } from '../utils/fetchData'
 
 const IndexPage = () => {
-  const dataFragrances: Perfume[] = data
+  const [data, setData] = useState<Perfume[]>()
+
+  useEffect(() => {
+    fetchData().then(response => {
+      setData(response)
+    })
+  }, [])
+
   return (
     <RootLayout title="Home | World of the best perfumes">
       <Header />
@@ -16,7 +25,7 @@ const IndexPage = () => {
           fontSize={{ base: '2xl', md: '4xl' }}
           fontWeight="light"
           lineHeight={{ base: '3xl', md: '4xl' }}
-          letterSpacing="-2px"
+          letterSpacing="-1px"
           mt={{ base: '40px', xl: '60px' }}
           mb={{ base: '40px', xl: '80px' }}
         >
@@ -35,22 +44,104 @@ const IndexPage = () => {
             gap="40px"
           >
             <Box>
-              <Text mb={{ base: 0, xl: '40px' }} as="span">
-                Sorting
-              </Text>
-              <Select size="lg" variant="outline" placeholder="A-Z">
-                <option value="alphabet a-z">A-Z</option>
-                <option value="alphabet z-a">Z-A</option>
-              </Select>
+              <Text mb={{ base: 0, xl: '14px' }}>Sorting</Text>
+              <Box>
+                <label htmlFor="a-z"></label>
+                <Select
+                  defaultValue="a-z"
+                  size="lg"
+                  variant="outline"
+                  name="alphabet"
+                  id="a-z"
+                  mb={5}
+                  backgroundColor="white"
+                  borderColor="transparent"
+                  filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                  fontSize="xs"
+                  lineHeight="xs"
+                  color={theme.colors.black}
+                >
+                  <option value="a-z">A-Z</option>
+                  <option value="z-a">Z-A</option>
+                </Select>
+                <label htmlFor="price"></label>
+                <Select
+                  defaultValue="lower-price"
+                  size="lg"
+                  variant="outline"
+                  name="price"
+                  id="price"
+                  backgroundColor="white"
+                  borderColor="transparent"
+                  filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                >
+                  <option value="lower price">Lower price</option>
+                  <option value="higher price">Higher price</option>
+                </Select>
+              </Box>
             </Box>
             <Box>
-              <Text mb={{ base: 0, xl: '40px' }} as="span">
-                Filters
-              </Text>
-              <Select size="lg" variant="outline" placeholder="lower price">
-                <option value="lower price">lower price</option>
-                <option value="higher price">higher price</option>
-              </Select>
+              <Text mb={{ base: 0, xl: '14px' }}>Filters</Text>
+              <Box>
+                <label htmlFor="brand"></label>
+                <Select
+                  defaultValue="all brands"
+                  size="lg"
+                  variant="outline"
+                  name="brand"
+                  id="brand"
+                  mb={5}
+                  backgroundColor="white"
+                  borderColor="transparent"
+                  filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                >
+                  <option value="all brands">All brands</option>
+                  <option value="Attar Collection">Attar Collection</option>
+                  <option value="Floraïku">Floraïku</option>
+                  <option value="Serge Lutens">Serge Lutens</option>
+                  <option value="Mugler">Mugler</option>
+                  <option value="Etat Libre d'Orange">Etat Libre d'Orange</option>
+                  <option value="Jul et Mad Paris">Jul et Mad Paris</option>
+                  <option value="Laura Biagiotti">Laura Biagiotti</option>
+                  <option value="Diptyque">Diptyque</option>
+                  <option value="Frederic Malle">Frederic Malle</option>
+                  <option value="Tom Ford">Tom Ford</option>
+                  <option value="Cartier">Cartier</option>
+                  <option value="Xerjoff">Xerjoff</option>
+                  <option value="Givenchy">Givenchy</option>
+                </Select>
+                <label htmlFor="discount"></label>
+                <Select
+                  defaultValue="all discounts"
+                  size="lg"
+                  variant="outline"
+                  name="discount"
+                  id="discount"
+                  mb={5}
+                  backgroundColor="white"
+                  borderColor="transparent"
+                  filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                >
+                  <option value="all discounts">All discounts</option>
+                  {/* next one does filter with and without discounts */}
+                  <option value="under €100">Under €100</option>
+                </Select>
+                <label htmlFor="gender"></label>
+                <Select
+                  size="lg"
+                  variant="outline"
+                  name="gender"
+                  id="gender"
+                  mb={5}
+                  backgroundColor="white"
+                  borderColor="transparent"
+                  filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                >
+                  <option value="unisex">Unisex</option>
+                  <option value="women">Women</option>
+                  <option value="men">Men</option>
+                </Select>
+              </Box>
             </Box>
           </Flex>
           <Grid
@@ -66,17 +157,21 @@ const IndexPage = () => {
             gap={{ base: '16px', lg: '40px' }}
             listStyleType="none"
           >
-            {dataFragrances.map(item => (
-              <Card
-                key={item.title}
-                photo={item.photo}
-                title={item.title}
-                brand={item.brand}
-                price={item.price}
-                discount={item.discount}
-                volume={item.volume}
-              />
-            ))}
+            {data ? (
+              data.map(item => (
+                <Card
+                  key={item.title}
+                  photo={item.photo}
+                  title={item.title}
+                  brand={item.brand}
+                  price={item.price}
+                  discount={item.discount}
+                  volume={item.volume}
+                />
+              ))
+            ) : (
+              <Spinner />
+            )}
           </Grid>
         </Flex>
       </Box>
