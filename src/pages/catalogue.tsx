@@ -2,7 +2,7 @@ import Card from '../components/Card'
 import RootLayout from '../components/RootLayout'
 import { Box, Heading, Flex, Grid, Text, Select, Spinner } from '@chakra-ui/react'
 import { Perfume } from '../interfaces'
-import theme from '../theme'
+
 import { useEffect, useState } from 'react'
 import { fetchData } from '../utils/fetchData'
 import Pagination from '../components/Pagination'
@@ -60,7 +60,7 @@ const CataloguePage = () => {
                   filter="drop-shadow(2px 2px 4px #DDD9D6)"
                   fontSize="xs"
                   lineHeight="xs"
-                  color={theme.colors.black}
+                  color="black"
                 >
                   <option value="a-z">A-Z</option>
                   <option value="z-a">Z-A</option>

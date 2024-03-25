@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import searchIcon from '../../public/search.svg'
 import { Box, Button, Input } from '@chakra-ui/react'
-import theme from '../../theme'
 
 const SearchField = () => {
   const [showInput, setShowInput] = useState<boolean>(false)
@@ -30,7 +29,7 @@ const SearchField = () => {
         </label>
       ) : (
         <Button
-          backgroundColor={theme.colors.transparent}
+          backgroundColor="transparent"
           height="24px"
           p={0}
           onClick={() => setShowInput(true)}

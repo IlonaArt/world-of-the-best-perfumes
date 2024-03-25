@@ -5,8 +5,6 @@ import { Button, Flex, GridItem, Heading, Link, Text } from '@chakra-ui/react'
 import heartIconUnfilled from '../public/heart-icon.svg'
 import heartIconFilled from '../public/heart-icon_filled.svg'
 import { useState } from 'react'
-import { extendTheme } from '@chakra-ui/react'
-import theme from '../theme'
 import styles from './Card.module.css'
 import CardPrice from './CardPrice'
 
@@ -47,11 +45,11 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
             fontSize="lg"
             lineHeight="lg"
             mb={{ base: 2, md: 1 }}
-            color={theme.colors.black}
+            color="black"
           >
             {brand}
           </Heading>
-          <Text as="span" fontSize="md" lineHeight="lg" mb={3} color={theme.colors.black}>
+          <Text as="span" fontSize="md" lineHeight="lg" mb={3} color="black">
             {title}
           </Text>
           <Flex as="ul" gap={2} listStyleType="none">
@@ -61,7 +59,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
                 fontSize="xs"
                 lineHeight="lg"
                 as="li"
-                color={theme.colors.black}
+                color="black"
                 py="2px"
                 px="6px"
                 border="1px solid"

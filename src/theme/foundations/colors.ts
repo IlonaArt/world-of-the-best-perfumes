@@ -1,7 +1,5 @@
 export const colors = {
-  brand: {
-    bg: '#FFF9F5',
-  },
+  mainBg: '#FFF9F5',
   transparent: 'transparent',
   black: '#121212',
   white: '#fff',

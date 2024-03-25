@@ -14,6 +14,21 @@ const overrides = {
   components: {
     Button,
   },
+  styles: {
+    global: {
+      'html, body': {
+        height: '100vh',
+      },
+      '#__next > div': {
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      ul: {
+        listStyle: 'none',
+      },
+    },
+  },
 }
 
 export default extendTheme(overrides)

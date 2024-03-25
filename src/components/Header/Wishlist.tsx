@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import heartIcon from '../../public/heart.svg'
 import { Flex, Text } from '@chakra-ui/react'
-import theme from '../../theme'
 
 const Wishlist = () => {
   return (
@@ -10,12 +9,12 @@ const Wishlist = () => {
       <Text
         as="span"
         display={{ base: 'none', md: 'block' }}
-        mr="12px"
-        fontSize={theme.fontSizes.lg}
-        lineHeight={theme.lineHeights.lg}
-        color={theme.colors.white}
+        mr={3}
+        fontSize="lg"
+        lineHeight="lg"
+        color="white"
         _hover={{
-          color: theme.colors.beige,
+          color: 'beige',
         }}
       >
         Wishlist

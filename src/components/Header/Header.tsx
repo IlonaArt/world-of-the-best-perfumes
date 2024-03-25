@@ -5,7 +5,6 @@ import logoIcon from '../../public/logo.svg'
 import Account from './Account'
 import Cart from './Cart'
 import Wishlist from './Wishlist'
-import theme from '../../theme'
 import { Box, Flex } from '@chakra-ui/react'
 
 const Header = () => {
@@ -13,7 +12,7 @@ const Header = () => {
     <Flex
       justifyContent="space-between"
       as="header"
-      backgroundColor={theme.colors.black}
+      backgroundColor="black"
       py={{ base: '6px', lg: '12px' }}
       px={{ base: '16px', lg: '40px', xl: '100px' }}
     >

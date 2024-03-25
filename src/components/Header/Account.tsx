@@ -11,11 +11,11 @@ const Account = () => {
         as="span"
         display={{ base: 'none', md: 'block' }}
         mr="12px"
-        fontSize={theme.fontSizes.lg}
-        lineHeight={theme.lineHeights.lg}
-        color={theme.colors.white}
+        fontSize="lg"
+        lineHeight="lg"
+        color="white"
         _hover={{
-          color: theme.colors.beige,
+          color: 'beige',
         }}
       >
         Account

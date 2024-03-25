@@ -6,6 +6,7 @@ import { Box } from '@chakra-ui/react'
 import Header from './Header/Header'
 import Navigation from './Navigation'
 import { Page } from '../interfaces'
+import Footer from './Header/Footer'
 
 interface Props {
   children?: ReactNode
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const RootLayout = ({ children, title = 'World of the best perfumes', page }: Props) => (
-  <Box bg={theme.colors.brand.bg}>
+  <Box bg="mainBg">
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />
@@ -25,6 +26,7 @@ const RootLayout = ({ children, title = 'World of the best perfumes', page }: Pr
       <Header />
       <Navigation page={page} />
       {children}
+      <Footer />
     </ChakraProvider>
   </Box>
 )
