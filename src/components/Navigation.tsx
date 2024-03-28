@@ -8,8 +8,15 @@ interface NavigationProps {
 
 const Navigation = ({ page }: NavigationProps) => {
   return (
-    <Flex>
+    <Flex
+      px={{ base: 4, lg: '100px' }}
+      py={{ base: 4, lg: 5 }}
+      gap={{ base: 4, lg: 10 }}
+      bg="bgNav"
+    >
       <Link
+        fontSize="md"
+        lineHeight="md"
         _hover={{ textDecoration: 'none' }}
         fontWeight={page === 'home' && 'bold'}
         as={NextLink}
@@ -18,6 +25,8 @@ const Navigation = ({ page }: NavigationProps) => {
         Home
       </Link>
       <Link
+        fontSize="md"
+        lineHeight="md"
         _hover={{ textDecoration: 'none' }}
         fontWeight={page === 'catalogue' && 'bold'}
         as={NextLink}

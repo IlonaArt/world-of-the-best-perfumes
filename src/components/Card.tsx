@@ -27,7 +27,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
       position="relative"
       bg="white"
       filter="drop-shadow(#E9E9E9 0 4px 10px)"
-      borderRadius={theme.radii.sm}
+      borderRadius="sm"
       pb={{ base: 4, md: 6 }}
       pt={{ base: '44px', md: 6 }}
       px={{ base: 3, md: 6 }}
@@ -63,7 +63,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
                 py="2px"
                 px="6px"
                 border="1px solid"
-                borderRadius={theme.radii.sm}
+                borderRadius="sm"
               >
                 {ml}ml
               </Text>

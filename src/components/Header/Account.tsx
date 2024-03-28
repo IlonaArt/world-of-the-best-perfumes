@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import accountIcon from '../../public/account.svg'
 import { Flex, Text } from '@chakra-ui/react'
-import theme from '../../theme'
 
 const Account = () => {
   return (

@@ -1,8 +1,9 @@
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex, Link, Text } from '@chakra-ui/react'
 import Image from 'next/image'
 import logoIcon from '../../public/logo.svg'
 import phoneIcon from '../../public/phone.svg'
 import envelopeIcon from '../../public/envelope.svg'
+import NextLink from 'next/link'
 
 const Footer = () => {
   return (
@@ -39,27 +40,31 @@ const Footer = () => {
           >
             About
           </Text>
-          <Box as="ul">
-            <Text
-              as="li"
+          <Flex flexDirection="column">
+            <Link
+              as={NextLink}
+              href="#"
               fontSize="md"
               lineHeight="lg"
               mb={3}
               color="white"
               textAlign={{ base: 'center', md: 'left' }}
+              _hover={{ color: 'beige' }}
             >
               About us
-            </Text>
-            <Text
-              as="li"
+            </Link>
+            <Link
+              as={NextLink}
+              href="#"
               fontSize="md"
               lineHeight="lg"
               color="white"
               textAlign={{ base: 'center', md: 'left' }}
+              _hover={{ color: 'beige' }}
             >
               Events
-            </Text>
-          </Box>
+            </Link>
+          </Flex>
         </Box>
         <Box>
           <Text
@@ -72,16 +77,18 @@ const Footer = () => {
           >
             Address
           </Text>
-          <Box as="ul">
-            <Text
-              as="li"
+          <Box>
+            <Link
+              as={NextLink}
+              href="#"
               fontSize="md"
               lineHeight="lg"
               color="white"
               textAlign={{ base: 'center', md: 'left' }}
+              _hover={{ color: 'beige' }}
             >
               Sunday Morning Street, 122
-            </Text>
+            </Link>
           </Box>
         </Box>
         <Box>
@@ -95,20 +102,47 @@ const Footer = () => {
           >
             Contact
           </Text>
-          <Box as="ul">
-            <Flex as="li" mb={3} justifyContent={{ base: 'center', md: 'left' }}>
+          <Flex flexDirection="column">
+            <Flex
+              as="a"
+              href="tel:310000000000"
+              mb={3}
+              justifyContent={{ base: 'center', md: 'left' }}
+            >
               <Image priority src={phoneIcon} alt="phone icon" />
-              <Text fontSize="md" lineHeight="lg" color="white" ml={1}>
+              <Text
+                fontSize="md"
+                lineHeight="lg"
+                color="white"
+                ml={1}
+                _hover={{
+                  color: 'beige',
+                }}
+              >
                 +31 000 0000000
               </Text>
             </Flex>
-            <Flex as="li" mb={3} justifyContent={{ base: 'center', md: 'left' }}>
-              <Image priority src={envelopeIcon} alt="phone icon" />
-              <Text fontSize="md" lineHeight="lg" color="white" ml={2}>
+            <Flex
+              as="a"
+              href="mailto:worldofbestperfumes@example.com"
+              target="_blank"
+              mb={3}
+              justifyContent={{ base: 'center', md: 'left' }}
+            >
+              <Image priority src={envelopeIcon} alt="envelope icon" />
+              <Text
+                fontSize="md"
+                lineHeight="lg"
+                color="white"
+                ml={2}
+                _hover={{
+                  color: 'beige',
+                }}
+              >
                 Email us
               </Text>
             </Flex>
-          </Box>
+          </Flex>
         </Box>
       </Flex>
       <Text fontSize="sm" lineHeight="sm" color="white">

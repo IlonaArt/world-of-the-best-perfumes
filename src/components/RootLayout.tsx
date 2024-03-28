@@ -15,7 +15,7 @@ interface Props {
 }
 
 const RootLayout = ({ children, title = 'World of the best perfumes', page }: Props) => (
-  <Box bg="mainBg">
+  <Box>
     <Head>
       <title>{title}</title>
       <meta charSet="utf-8" />

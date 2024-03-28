@@ -6,35 +6,59 @@ import { Perfume } from '../interfaces'
 import { useEffect, useState } from 'react'
 import { fetchData } from '../utils/fetchData'
 import Pagination from '../components/Pagination'
+import { createEffect, createStore, StoreWritable } from 'effector'
+import { createGate, useGate, useStore, useUnit } from 'effector-react'
 
-const CataloguePage = () => {
+// const fetchDataSideEffect = createEffect()
+
+// fetchDataSideEffect.use(async () => {
+//   const data = await fetchData()
+//   return data
+// })
+
+// const data: StoreWritable<Perfume> = createStore(null).on(
+//   fetchDataSideEffect,
+//   (_, data) => data,
+// )
+
+// const PerfumeGate = createGate()
+
+interface CataloguePageProps {
+  bg: string
+}
+
+const CataloguePage = ({ bg }: CataloguePageProps) => {
   const [data, setData] = useState<Perfume[]>()
-
+  // useGate(PerfumeGate)
+  // const loading = useUnit(fetchDataSideEffect.pending)
   useEffect(() => {
     fetchData().then(response => {
       setData(response)
     })
   }, [])
 
-  console.log(data)
+  // console.log(loading, 'loading')
+
+  // console.log(data)
 
   return (
     <RootLayout page="catalogue" title="Catalogue">
-      <Box px={{ base: '16px', lg: '40px', xl: '100px' }}>
+      <Box px={{ base: 4, lg: 10, xl: '100px' }} bg="mainBg">
         <Heading
           as="h1"
           fontSize={{ base: '2xl', md: '4xl' }}
           fontWeight="light"
           lineHeight={{ base: '3xl', md: '4xl' }}
           letterSpacing="-1px"
-          mt={{ base: '40px', xl: '60px' }}
-          mb={{ base: '40px', xl: '80px' }}
+          mt={{ base: 10, xl: '60px' }}
+          mb={{ base: 6, xl: '60px' }}
         >
           Catalogue
         </Heading>
         <Flex
-          gap={{ base: '20px', xl: '60px' }}
+          gap={{ base: 5, xl: '60px' }}
           direction={{ base: 'column', xl: 'row' }}
+          mb={{ base: 10, xl: '60px' }}
         >
           <Flex
             flexShrink={0}
@@ -61,6 +85,7 @@ const CataloguePage = () => {
                   fontSize="xs"
                   lineHeight="xs"
                   color="black"
+                  cursor="pointer"
                 >
                   <option value="a-z">A-Z</option>
                   <option value="z-a">Z-A</option>
@@ -75,6 +100,7 @@ const CataloguePage = () => {
                   backgroundColor="white"
                   borderColor="transparent"
                   filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                  cursor="pointer"
                 >
                   <option value="lower price">Lower price</option>
                   <option value="higher price">Higher price</option>
@@ -95,6 +121,7 @@ const CataloguePage = () => {
                   backgroundColor="white"
                   borderColor="transparent"
                   filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                  cursor="pointer"
                 >
                   <option value="all brands">All brands</option>
                   <option value="Attar Collection">Attar Collection</option>
@@ -122,6 +149,7 @@ const CataloguePage = () => {
                   backgroundColor="white"
                   borderColor="transparent"
                   filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                  cursor="pointer"
                 >
                   <option value="all discounts">All discounts</option>
                   {/* next one does filter with and without discounts */}
@@ -137,6 +165,7 @@ const CataloguePage = () => {
                   backgroundColor="white"
                   borderColor="transparent"
                   filter="drop-shadow(2px 2px 4px #DDD9D6)"
+                  cursor="pointer"
                 >
                   <option value="unisex">Unisex</option>
                   <option value="women">Women</option>
@@ -146,6 +175,7 @@ const CataloguePage = () => {
             </Box>
           </Flex>
 
+          {/* {!loading ? ( */}
           {data ? (
             <Box>
               <Grid
@@ -163,17 +193,17 @@ const CataloguePage = () => {
               >
                 {data.map(item => (
                   <Card
-                    key={item.title}
-                    photo={item.photo}
-                    title={item.title}
-                    brand={item.brand}
-                    price={item.price}
-                    discount={item.discount}
-                    volume={item.volume}
+                    key={item?.title}
+                    photo={item?.photo}
+                    title={item?.title}
+                    brand={item?.brand}
+                    price={item?.price}
+                    discount={item?.discount}
+                    volume={item?.volume}
                   />
                 ))}
               </Grid>
-              <Pagination amount={data.length} />
+              {/* <Pagination amount={data.length} /> */}
             </Box>
           ) : (
             <Spinner />

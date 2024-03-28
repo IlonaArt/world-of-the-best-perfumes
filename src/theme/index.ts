@@ -19,6 +19,9 @@ const overrides = {
       'html, body': {
         height: '100vh',
       },
+      '#__next': {
+        height: '100vh',
+      },
       '#__next > div': {
         height: '100vh',
         display: 'flex',
