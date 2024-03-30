@@ -1,7 +1,7 @@
 import { createEffect, StoreWritable, createStore, sample } from 'effector'
 import { createGate } from 'effector-react'
-import { Perfume } from '../interfaces'
-import { fetchAllPerfume } from './api/fetchAllPerfume'
+import { Perfume } from '../../interfaces'
+import { fetchAllPerfume } from './fetchAllPerfume'
 
 export const PerfumeGate = createGate()
 

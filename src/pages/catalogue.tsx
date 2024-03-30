@@ -1,16 +1,8 @@
-import Card from '../components/Card'
 import RootLayout from '../components/RootLayout'
-import { Box, Heading, Flex, Grid, Text, Select, Spinner } from '@chakra-ui/react'
-
-import Pagination from '../components/Pagination'
-import { useGate, useUnit } from 'effector-react'
-import { PerfumeGate, $data, fetchDataSideEffect, $error } from './model'
+import { Box, Heading, Flex, Text, Select } from '@chakra-ui/react'
+import PerfumeList from '../components/Catalogue/PerfumeList/PerfumeList'
 
 const CataloguePage = () => {
-  useGate(PerfumeGate)
-
-  const [data, error, loading] = useUnit([$data, $error, fetchDataSideEffect.pending])
-
   return (
     <RootLayout page="catalogue" title="Catalogue">
       <Box px={{ base: 4, lg: 10, xl: '100px' }} bg="mainBg">
@@ -145,38 +137,7 @@ const CataloguePage = () => {
             </Box>
           </Flex>
 
-          {!loading && !error && data && (
-            <Box>
-              <Grid
-                as="ul"
-                templateColumns={{
-                  base: 'repeat(1, 1fr)',
-                  md: 'repeat(2, 1fr)',
-                  lg: 'repeat(3, 1fr)',
-                  '2xl': 'repeat(4, 1fr)',
-                }}
-                alignSelf="flex-end"
-                flexGrow={1}
-                gap={{ base: '16px', lg: '40px' }}
-                listStyleType="none"
-              >
-                {data.map(item => (
-                  <Card
-                    key={item?.title}
-                    photo={item?.photo}
-                    title={item?.title}
-                    brand={item?.brand}
-                    price={item?.price}
-                    discount={item?.discount}
-                    volume={item?.volume}
-                  />
-                ))}
-              </Grid>
-              {/* <Pagination amount={data.length} /> */}
-            </Box>
-          )}
-          {loading && <Spinner />}
-          {!loading && error && <Text>{error}</Text>}
+          <PerfumeList />
         </Flex>
       </Box>
     </RootLayout>
