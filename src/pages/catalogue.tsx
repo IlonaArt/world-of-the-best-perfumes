@@ -1,45 +1,15 @@
 import Card from '../components/Card'
 import RootLayout from '../components/RootLayout'
 import { Box, Heading, Flex, Grid, Text, Select, Spinner } from '@chakra-ui/react'
-import { Perfume } from '../interfaces'
 
-import { useEffect, useState } from 'react'
-import { fetchData } from '../utils/fetchData'
 import Pagination from '../components/Pagination'
-import { createEffect, createStore, StoreWritable } from 'effector'
-import { createGate, useGate, useStore, useUnit } from 'effector-react'
+import { useGate, useUnit } from 'effector-react'
+import { PerfumeGate, $data, fetchDataSideEffect, $error } from './model'
 
-// const fetchDataSideEffect = createEffect()
+const CataloguePage = () => {
+  useGate(PerfumeGate)
 
-// fetchDataSideEffect.use(async () => {
-//   const data = await fetchData()
-//   return data
-// })
-
-// const data: StoreWritable<Perfume> = createStore(null).on(
-//   fetchDataSideEffect,
-//   (_, data) => data,
-// )
-
-// const PerfumeGate = createGate()
-
-interface CataloguePageProps {
-  bg: string
-}
-
-const CataloguePage = ({ bg }: CataloguePageProps) => {
-  const [data, setData] = useState<Perfume[]>()
-  // useGate(PerfumeGate)
-  // const loading = useUnit(fetchDataSideEffect.pending)
-  useEffect(() => {
-    fetchData().then(response => {
-      setData(response)
-    })
-  }, [])
-
-  // console.log(loading, 'loading')
-
-  // console.log(data)
+  const [data, error, loading] = useUnit([$data, $error, fetchDataSideEffect.pending])
 
   return (
     <RootLayout page="catalogue" title="Catalogue">
@@ -175,8 +145,7 @@ const CataloguePage = ({ bg }: CataloguePageProps) => {
             </Box>
           </Flex>
 
-          {/* {!loading ? ( */}
-          {data ? (
+          {!loading && !error && data && (
             <Box>
               <Grid
                 as="ul"
@@ -205,9 +174,9 @@ const CataloguePage = ({ bg }: CataloguePageProps) => {
               </Grid>
               {/* <Pagination amount={data.length} /> */}
             </Box>
-          ) : (
-            <Spinner />
           )}
+          {loading && <Spinner />}
+          {!loading && error && <Text>{error}</Text>}
         </Flex>
       </Box>
     </RootLayout>

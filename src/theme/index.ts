@@ -16,13 +16,7 @@ const overrides = {
   },
   styles: {
     global: {
-      'html, body': {
-        height: '100vh',
-      },
-      '#__next': {
-        height: '100vh',
-      },
-      '#__next > div': {
+      '.root-layout': {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
