@@ -6,7 +6,7 @@ import { Box } from '@chakra-ui/react'
 import Header from './Header/Header'
 import Navigation from './Navigation'
 import { Page } from '../interfaces'
-import Footer from './Header/Footer'
+import Footer from './Footer/Footer'
 
 interface Props {
   children?: ReactNode

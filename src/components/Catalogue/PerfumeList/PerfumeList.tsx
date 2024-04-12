@@ -3,12 +3,15 @@ import { useGate, useUnit } from 'effector-react'
 import { PerfumeGate, $data, fetchDataSideEffect, $error } from '../model'
 import Card from './Card'
 import Pagination from '../Pagination'
+import { Perfume } from '../../../interfaces'
 
-const PerfumeList = () => {
-  useGate(PerfumeGate)
+interface PerfumeListProps {
+  data: Perfume[]
+  error: any
+  loading: boolean
+}
 
-  const [data, error, loading] = useUnit([$data, $error, fetchDataSideEffect.pending])
-
+const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
   if (loading) {
     return <Spinner />
   }

@@ -1,6 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
-import accountIcon from '../../public/account.svg'
+import AccountIcon from '../../public/account.svg'
 import { Flex, Text } from '@chakra-ui/react'
 
 const Account = () => {
@@ -19,7 +18,7 @@ const Account = () => {
       >
         Account
       </Text>
-      <Image priority src={accountIcon} alt="account icon" />
+      <AccountIcon />
     </Flex>
   )
 }

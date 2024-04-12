@@ -1,6 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
-import cartIcon from '../../public/cart.svg'
+import CartIcon from '../../public/cart.svg'
 import { Flex, Text } from '@chakra-ui/react'
 
 const Cart = () => {
@@ -19,7 +18,7 @@ const Cart = () => {
       >
         Cart
       </Text>
-      <Image priority src={cartIcon} alt="cart icon" />
+      <CartIcon />
     </Flex>
   )
 }

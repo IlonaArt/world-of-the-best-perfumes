@@ -1,8 +1,7 @@
 import { Box, Flex, Link, Text } from '@chakra-ui/react'
-import Image from 'next/image'
-import logoIcon from '../../public/logo.svg'
-import phoneIcon from '../../public/phone.svg'
-import envelopeIcon from '../../public/envelope.svg'
+import LogoIcon from '../../public/logo.svg'
+import PhoneIcon from '../../public/phone.svg'
+import EnvelopeIcon from '../../public/envelope.svg'
 import NextLink from 'next/link'
 
 const Footer = () => {
@@ -27,7 +26,7 @@ const Footer = () => {
           width={{ base: '48px', md: '76px' }}
           height={{ base: '54px', md: '86px' }}
         >
-          <Image priority src={logoIcon} alt="Website logo" />
+          <LogoIcon />
         </Box>
         <Box>
           <Text
@@ -109,7 +108,7 @@ const Footer = () => {
               mb={3}
               justifyContent={{ base: 'center', md: 'left' }}
             >
-              <Image priority src={phoneIcon} alt="phone icon" />
+              <PhoneIcon />
               <Text
                 fontSize="md"
                 lineHeight="lg"
@@ -129,7 +128,7 @@ const Footer = () => {
               mb={3}
               justifyContent={{ base: 'center', md: 'left' }}
             >
-              <Image priority src={envelopeIcon} alt="envelope icon" />
+              <EnvelopeIcon />
               <Text
                 fontSize="md"
                 lineHeight="lg"

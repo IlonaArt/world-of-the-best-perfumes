@@ -1,7 +1,6 @@
 import SearchField from './SearchField'
 import React from 'react'
-import Image from 'next/image'
-import logoIcon from '../../public/logo.svg'
+import LogoIcon from '../../public/logo.svg'
 import Account from './Account'
 import Cart from './Cart'
 import Wishlist from './Wishlist'
@@ -22,7 +21,7 @@ const Header = () => {
         width={{ base: '48px', md: '76px' }}
         height={{ base: '54px', md: '86px' }}
       >
-        <Image priority src={logoIcon} alt="Website logo" />
+        <LogoIcon />
       </Box>
       <Flex alignItems="center" gap={{ base: '14px', md: '40px' }}>
         <SearchField />

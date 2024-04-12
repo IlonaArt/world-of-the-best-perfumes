@@ -1,6 +1,5 @@
 import React from 'react'
-import Image from 'next/image'
-import heartIcon from '../../public/heart.svg'
+import HeartIcon from '../../public/heart.svg'
 import { Flex, Text } from '@chakra-ui/react'
 
 const Wishlist = () => {
@@ -19,7 +18,7 @@ const Wishlist = () => {
       >
         Wishlist
       </Text>
-      <Image priority src={heartIcon} alt="wishlist icon" />
+      <HeartIcon />
     </Flex>
   )
 }

@@ -1,9 +1,7 @@
-import Image from 'next/image'
 import PerfumeImage from './PerfumeImage'
 import NextLink from 'next/link'
 import { Button, Flex, GridItem, Heading, Link, Text } from '@chakra-ui/react'
-import heartIconUnfilled from '../../../public/heart-icon.svg'
-import heartIconFilled from '../../../public/heart-icon_filled.svg'
+import HeartIcon from '../../../public/heart-icon.svg'
 import { useState } from 'react'
 import styles from './Card.module.css'
 import CardPrice from './CardPrice'
@@ -76,13 +74,21 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
       </Flex>
 
       <Button width="100%">Buy now</Button>
-      <Button variant="transparent" position="absolute" top={4} right="10px" px={3}>
-        <Image
+      <Button
+        className={styles.heartIconButton}
+        variant="transparent"
+        position="absolute"
+        top={4}
+        right="10px"
+        px={3}
+      >
+        <HeartIcon className={styles.heartIcon} />
+        {/* <Image
           className={styles.heartIcon}
           src={isFavorite ? heartIconFilled : heartIconUnfilled}
           alt="Add to favorites"
           onClick={() => setIsFavorite(!isFavorite)}
-        />
+        /> */}
       </Button>
       <Link
         as={NextLink}
