@@ -8,10 +8,10 @@ import SortingButton from './SortingButton'
 import FilterButton from './FilterButton'
 
 interface FiltersProps {
-  onAscend: () => void
+  onAlphabetSort: () => void
 }
 
-const Filters = ({ onAscend }: FiltersProps) => {
+const Filters = ({ onAlphabetSort }: FiltersProps) => {
   return (
     <Flex
       flexShrink={0}
@@ -25,7 +25,7 @@ const Filters = ({ onAscend }: FiltersProps) => {
         <SortingButton />
         <Box display={{ base: 'none', xl: 'block' }}>
           <label htmlFor="a-z"></label>
-          <AlphabetSorting onAscend={onAscend} />
+          <AlphabetSorting onAlphabetSort={onAlphabetSort} />
           <label htmlFor="price"></label>
           <PriceSorting />
         </Box>

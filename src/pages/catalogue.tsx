@@ -1,12 +1,6 @@
 import RootLayout from '../components/RootLayout'
-import { Box, Heading, Flex, Img, Text, Select, Spinner } from '@chakra-ui/react'
+import { Box, Heading, Flex, Spinner } from '@chakra-ui/react'
 import PerfumeList from '../components/Catalogue/PerfumeList/PerfumeList'
-import filterIcon from '../public/filter.svg'
-import SortingIcon from '../public/sorting.svg'
-import styles from '../styles.module.css'
-import { useBreakpointValue, useBreakpoint } from '@chakra-ui/react'
-import Sorting from '../components/Catalogue/Filters/SortingButton'
-import AlphabetSorting from '../components/Catalogue/Filters/AlphabetSorting'
 import Filters from '../components/Catalogue/Filters/Filters'
 import { useGate, useUnit } from 'effector-react'
 import {
@@ -22,15 +16,13 @@ const CataloguePage = () => {
   useGate(PerfumeGate)
   const [data, error, loading] = useUnit([$data, $error, fetchDataSideEffect.pending])
   const [sortedData, setSortedData] = useState<Perfume[] | null>(null)
+  const [isAlphabetAscending, setIsAlphabetAscending] = useState(true)
+  const [isPriceAscending, setIsPriceAscending] = useState(false)
 
   useEffect(() => {
-    setSortedData(data)
-  }, [loading])
+    if (!data) return
 
-  console.log(sortedData, 'sortedData')
-
-  const onAscend = () => {
-    const newSortedData = [...sortedData].sort((perfume1, perfume2) => {
+    const newSortedData = [...data].sort((perfume1, perfume2) => {
       if (perfume1.brand < perfume2.brand) {
         return -1
       }
@@ -39,6 +31,38 @@ const CataloguePage = () => {
       }
       return 0
     })
+    setSortedData(newSortedData)
+  }, [loading])
+
+  const onAlphabetSort = () => {
+    const newSortedData = [...sortedData].sort((perfume1, perfume2) => {
+      if (perfume1.brand < perfume2.brand) {
+        return isAlphabetAscending ? 1 : -1
+      }
+      if (perfume1.brand > perfume2.brand) {
+        return isAlphabetAscending ? -1 : 1
+      }
+      return 0
+    })
+    setIsAlphabetAscending(!isAlphabetAscending)
+    setSortedData(newSortedData)
+  }
+
+  const onPriceSort = () => {
+    const newSortedData = [...sortedData].sort((perfume1, perfume2) => {
+      const finalPrice1 =
+        perfume1.discount.length > 0 ? perfume1.discount[0] : perfume1.price[0]
+      const finalPrice2 =
+        perfume2.discount.length > 0 ? perfume2.discount[0] : perfume2.price[0]
+      if (finalPrice1 < finalPrice2) {
+        return isPriceAscending ? -1 : 1
+      }
+      if (finalPrice1 > finalPrice2) {
+        return isPriceAscending ? 1 : -1
+      }
+      return 0
+    })
+    setIsPriceAscending(!isPriceAscending)
     setSortedData(newSortedData)
   }
 
@@ -61,7 +85,7 @@ const CataloguePage = () => {
           direction={{ base: 'column', xl: 'row' }}
           mb={{ base: 10, xl: '60px' }}
         >
-          <Filters onAscend={onAscend} />
+          <Filters onAlphabetSort={onAlphabetSort} />
           {sortedData ? (
             <PerfumeList data={sortedData} error={error} loading={loading} />
           ) : (
