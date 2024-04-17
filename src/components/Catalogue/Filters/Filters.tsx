@@ -6,12 +6,14 @@ import DiscountFilter from './DiscountFilter'
 import GenderFilter from './GenderFilter'
 import SortingButton from './SortingButton'
 import FilterButton from './FilterButton'
+import { PriceSortType, SortType } from '../../../interfaces'
 
 interface FiltersProps {
-  onAlphabetSort: () => void
+  onAlphabetSort: (sortType: SortType) => void
+  onPriceSort: (sortType: PriceSortType) => void
 }
 
-const Filters = ({ onAlphabetSort }: FiltersProps) => {
+const Filters = ({ onAlphabetSort, onPriceSort }: FiltersProps) => {
   return (
     <Flex
       flexShrink={0}
@@ -27,7 +29,7 @@ const Filters = ({ onAlphabetSort }: FiltersProps) => {
           <label htmlFor="a-z"></label>
           <AlphabetSorting onAlphabetSort={onAlphabetSort} />
           <label htmlFor="price"></label>
-          <PriceSorting />
+          <PriceSorting onPriceSort={onPriceSort} />
         </Box>
       </Box>
       <Box>

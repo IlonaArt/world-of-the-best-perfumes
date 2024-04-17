@@ -10,14 +10,12 @@ import {
   fetchDataSideEffect,
 } from '../components/Catalogue/model'
 import { useEffect, useState } from 'react'
-import { Perfume } from '../interfaces'
+import { Perfume, PriceSortType, SortType } from '../interfaces'
 
 const CataloguePage = () => {
   useGate(PerfumeGate)
   const [data, error, loading] = useUnit([$data, $error, fetchDataSideEffect.pending])
   const [sortedData, setSortedData] = useState<Perfume[] | null>(null)
-  const [isAlphabetAscending, setIsAlphabetAscending] = useState(true)
-  const [isPriceAscending, setIsPriceAscending] = useState(false)
 
   useEffect(() => {
     if (!data) return
@@ -34,36 +32,42 @@ const CataloguePage = () => {
     setSortedData(newSortedData)
   }, [loading])
 
-  const onAlphabetSort = () => {
+  // switch case
+  const onAlphabetSort = (sortType: SortType) => {
     const newSortedData = [...sortedData].sort((perfume1, perfume2) => {
       if (perfume1.brand < perfume2.brand) {
-        return isAlphabetAscending ? 1 : -1
+        return sortType === 'desc' ? 1 : -1
       }
       if (perfume1.brand > perfume2.brand) {
-        return isAlphabetAscending ? -1 : 1
+        return sortType === 'desc' ? -1 : 1
       }
       return 0
     })
-    setIsAlphabetAscending(!isAlphabetAscending)
     setSortedData(newSortedData)
   }
 
-  const onPriceSort = () => {
-    const newSortedData = [...sortedData].sort((perfume1, perfume2) => {
-      const finalPrice1 =
-        perfume1.discount.length > 0 ? perfume1.discount[0] : perfume1.price[0]
-      const finalPrice2 =
-        perfume2.discount.length > 0 ? perfume2.discount[0] : perfume2.price[0]
-      if (finalPrice1 < finalPrice2) {
-        return isPriceAscending ? -1 : 1
-      }
-      if (finalPrice1 > finalPrice2) {
-        return isPriceAscending ? 1 : -1
-      }
-      return 0
-    })
-    setIsPriceAscending(!isPriceAscending)
-    setSortedData(newSortedData)
+  const onPriceSort = (sortType: PriceSortType) => {
+    if (sortType !== 'none') {
+      const newSortedData = [...sortedData].sort((perfume1, perfume2) => {
+        const finalPrice1 =
+          perfume1.discount.length > 0 ? perfume1.discount[0] : perfume1.price[0]
+        const finalPrice2 =
+          perfume2.discount.length > 0 ? perfume2.discount[0] : perfume2.price[0]
+        if (finalPrice1 < finalPrice2) {
+          return sortType === 'asc' ? -1 : 1
+        }
+        if (finalPrice1 > finalPrice2) {
+          return sortType === 'asc' ? 1 : -1
+        }
+        return 0
+      })
+
+      setSortedData(newSortedData)
+    }
+
+    if (sortType === 'none') {
+      onAlphabetSort('asc')
+    }
   }
 
   return (
@@ -85,7 +89,7 @@ const CataloguePage = () => {
           direction={{ base: 'column', xl: 'row' }}
           mb={{ base: 10, xl: '60px' }}
         >
-          <Filters onAlphabetSort={onAlphabetSort} />
+          <Filters onAlphabetSort={onAlphabetSort} onPriceSort={onPriceSort} />
           {sortedData ? (
             <PerfumeList data={sortedData} error={error} loading={loading} />
           ) : (

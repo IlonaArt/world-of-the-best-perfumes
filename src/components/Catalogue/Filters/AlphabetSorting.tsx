@@ -1,13 +1,18 @@
 import { Select } from '@chakra-ui/react'
+import { SortType } from '../../../interfaces'
 
 interface AlphabetSortingProps {
-  onAlphabetSort: () => void
+  onAlphabetSort: (sortType: SortType) => void
 }
 
 const AlphabetSorting = ({ onAlphabetSort }: AlphabetSortingProps) => {
+  const onHandleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedOption = event.target.value as SortType
+    onAlphabetSort(selectedOption)
+  }
+
   return (
     <Select
-      defaultValue="a-z"
       size="lg"
       variant="outline"
       name="alphabet"
@@ -18,10 +23,12 @@ const AlphabetSorting = ({ onAlphabetSort }: AlphabetSortingProps) => {
       filter="drop-shadow(2px 2px 4px #DDD9D6)"
       color="black"
       cursor="pointer"
-      onChange={onAlphabetSort}
+      onChange={onHandleChange}
     >
-      <option value="a-z">A-Z</option>
-      <option value="z-a">Z-A</option>
+      <option value="asc" defaultChecked>
+        A-Z
+      </option>
+      <option value="desc">Z-A</option>
     </Select>
   )
 }
