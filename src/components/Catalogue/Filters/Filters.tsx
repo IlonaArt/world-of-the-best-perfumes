@@ -1,19 +1,17 @@
 import { Box, Flex } from '@chakra-ui/react'
-import AlphabetSorting from './AlphabetSorting'
-import PriceSorting from './PriceSorting'
+import Sorting from './Sorting'
 import BrandFilter from './BrandFilter'
 import DiscountFilter from './DiscountFilter'
 import GenderFilter from './GenderFilter'
 import SortingButton from './SortingButton'
 import FilterButton from './FilterButton'
-import { PriceSortType, SortType } from '../../../interfaces'
+import { SortType } from '../../../interfaces'
 
 interface FiltersProps {
-  onAlphabetSort: (sortType: SortType) => void
-  onPriceSort: (sortType: PriceSortType) => void
+  onSort: (sortType: SortType) => void
 }
 
-const Filters = ({ onAlphabetSort, onPriceSort }: FiltersProps) => {
+const Filters = ({ onSort }: FiltersProps) => {
   return (
     <Flex
       flexShrink={0}
@@ -27,9 +25,7 @@ const Filters = ({ onAlphabetSort, onPriceSort }: FiltersProps) => {
         <SortingButton />
         <Box display={{ base: 'none', xl: 'block' }}>
           <label htmlFor="a-z"></label>
-          <AlphabetSorting onAlphabetSort={onAlphabetSort} />
-          <label htmlFor="price"></label>
-          <PriceSorting onPriceSort={onPriceSort} />
+          <Sorting onSort={onSort} />
         </Box>
       </Box>
       <Box>
