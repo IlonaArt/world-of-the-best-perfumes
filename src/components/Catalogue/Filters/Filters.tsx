@@ -5,13 +5,8 @@ import DiscountFilter from './DiscountFilter'
 import GenderFilter from './GenderFilter'
 import SortingButton from './SortingButton'
 import FilterButton from './FilterButton'
-import { SortType } from '../../../interfaces'
 
-interface FiltersProps {
-  onSort: (sortType: SortType) => void
-}
-
-const Filters = ({ onSort }: FiltersProps) => {
+const Filters = () => {
   return (
     <Flex
       flexShrink={0}
@@ -25,7 +20,7 @@ const Filters = ({ onSort }: FiltersProps) => {
         <SortingButton />
         <Box display={{ base: 'none', xl: 'block' }}>
           <label htmlFor="a-z"></label>
-          <Sorting onSort={onSort} />
+          <Sorting />
         </Box>
       </Box>
       <Box>

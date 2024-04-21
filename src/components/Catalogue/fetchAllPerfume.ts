@@ -1,4 +1,9 @@
-import { Perfume } from '../../interfaces'
+import { Perfume, SortType } from '../../interfaces'
 import { fetchData } from '../../utils/fetchData'
 
-export const fetchAllPerfume = () => fetchData<Perfume[]>('/api/getAllPerfumeData')
+interface Params {
+  sort: SortType
+}
+
+export const fetchAllPerfume = (params: Params) =>
+  fetchData<Perfume[]>(`/api/getAllPerfumeData?sort=${params.sort}`)

@@ -4,21 +4,15 @@ import PerfumeList from '../components/Catalogue/PerfumeList/PerfumeList'
 import Filters from '../components/Catalogue/Filters/Filters'
 import { useGate, useUnit } from 'effector-react'
 import {
+  $data,
   $error,
-  $sortedData,
-  dataSorted,
   PerfumeGate,
   fetchDataSideEffect,
 } from '../components/Catalogue/model'
 
 const CataloguePage = () => {
   useGate(PerfumeGate)
-  const [sortedData, sort, error, loading] = useUnit([
-    $sortedData,
-    dataSorted,
-    $error,
-    fetchDataSideEffect.pending,
-  ])
+  const [data, error, loading] = useUnit([$data, $error, fetchDataSideEffect.pending])
 
   return (
     <RootLayout page="catalogue" title="Catalogue">
@@ -39,9 +33,9 @@ const CataloguePage = () => {
           direction={{ base: 'column', xl: 'row' }}
           mb={{ base: 10, xl: '60px' }}
         >
-          <Filters onSort={sort} />
-          {sortedData ? (
-            <PerfumeList data={sortedData} error={error} loading={loading} />
+          <Filters />
+          {data ? (
+            <PerfumeList data={data} error={error} loading={loading} />
           ) : (
             <Spinner />
           )}
