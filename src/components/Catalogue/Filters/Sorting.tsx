@@ -25,12 +25,12 @@ const Sorting = ({ onSort }: SortingProps) => {
       cursor="pointer"
       onChange={handleChange}
     >
-      <option value="asc-alphabet" defaultChecked>
+      <option value="brand-asc" defaultChecked>
         A-Z
       </option>
-      <option value="desc-alphabet">Z-A</option>
-      <option value="desc-price">To lower price</option>
-      <option value="asc-price">To higher price</option>
+      <option value="brand-desc">Z-A</option>
+      <option value="price-desc">To lower price</option>
+      <option value="price-asc">To higher price</option>
     </Select>
   )
 }

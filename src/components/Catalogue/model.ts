@@ -25,7 +25,7 @@ const sort = createEffect(
       const finalPrice2 =
         perfume2.discount.length > 0 ? perfume2.discount[0] : perfume2.price[0]
 
-      if (sortType.includes('alphabet')) {
+      if (sortType.includes('brand')) {
         return brand1 < brand2 ? -1 : 1
       } else if (sortType.includes('price')) {
         return finalPrice1 - finalPrice2
@@ -60,7 +60,7 @@ sample({
 
 sample({
   clock: $data,
-  fn: (): SortType => 'asc-alphabet',
+  fn: (): SortType => 'brand-asc',
   target: dataSorted,
 })
 

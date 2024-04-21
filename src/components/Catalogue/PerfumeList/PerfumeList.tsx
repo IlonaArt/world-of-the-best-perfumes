@@ -1,6 +1,4 @@
 import { Box, Grid, Text, Spinner } from '@chakra-ui/react'
-import { useGate, useUnit } from 'effector-react'
-import { PerfumeGate, $data, fetchDataSideEffect, $error } from '../model'
 import Card from './Card'
 import Pagination from '../Pagination'
 import { Perfume } from '../../../interfaces'

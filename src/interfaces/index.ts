@@ -16,4 +16,4 @@ export interface PerfumeList {
 
 export type Page = 'home' | 'catalogue'
 
-export type SortType = 'asc-alphabet' | 'desc-alphabet' | 'asc-price' | 'desc-price'
+export type SortType = 'brand-asc' | 'brand-desc' | 'price-asc' | 'price-desc'
