@@ -1,59 +1,64 @@
-import React, { useState, useEffect } from 'react'
-import { Box, Flex, Spacer } from '@chakra-ui/react'
-import {
-  Previous,
-  Paginator,
-  PageGroup,
-  Page,
-  Next,
-  generatePages,
-} from 'chakra-paginator'
+import { Button, Flex, Input } from '@chakra-ui/react'
+import { useUnit } from 'effector-react'
+import { $currentPage, $pages, changeUrlParamsEffect } from './model'
 
-interface PaginationProps {
-  amount: number
-}
+const Pagination = () => {
+  const [currentPage, pages, changeUrlParams] = useUnit([
+    $currentPage,
+    $pages,
+    changeUrlParamsEffect,
+  ])
 
-const Pagination = ({ amount }: PaginationProps) => {
-  const itemLimit = 3
-  const [pagesQuantity, setPagesQuantity] = useState(0)
-  const [curPage, setCurPage] = useState(0)
+  const isFirstPage = currentPage === 1
+  const isLastPage = currentPage === pages
 
-  const normalStyles = {
-    textDecoration: 'underline',
+  const changePage = (page: number) => {
+    changeUrlParams({ page })
   }
 
-  const activeStyles = {
-    fontWEight: 'semibold',
+  const goToFirstPage = () => {
+    if (isFirstPage) return
+    changePage(1)
   }
 
-  const handlePageChange = page => {
-    setCurPage(page)
+  const goToLastPage = () => {
+    if (isLastPage) return
+    changePage(pages)
   }
 
-  useEffect(() => {
-    const pagesTotal = Math.ceil(amount / itemLimit)
+  const goToPreviousPage = () => {
+    if (isFirstPage) return
+    changePage(currentPage - 1)
+  }
 
-    setPagesQuantity(pagesTotal)
-  }, [amount])
+  const goToNextPage = () => {
+    if (isLastPage) return
+    changePage(currentPage + 1)
+  }
+
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    let inputValue = Number(event.currentTarget.value)
+    if (Number.isNaN(inputValue) || event.code !== 'Enter') return
+    inputValue = Math.max(Math.min(inputValue, pages), 1)
+    changePage(inputValue)
+  }
 
   return (
-    <Box>
-      <Flex p={2}>
-        <Spacer />
-        <Paginator onPageChange={handlePageChange} pagesQuantity={pagesQuantity - 1}>
-          <Previous bg="white">{'<'}</Previous>
-          <PageGroup>
-            {generatePages({
-              pagesQuantity,
-              currentPage: curPage,
-              innerLimit: itemLimit,
-              outerLimit: itemLimit,
-            })?.map(page => <Page key={`paginator_page_${page}`} page={page} />)}
-          </PageGroup>
-          <Next bg="white">{'>'}</Next>
-        </Paginator>
-      </Flex>
-    </Box>
+    <Flex>
+      <Button onClick={goToFirstPage} isDisabled={isFirstPage}>
+        1
+      </Button>
+      <Button onClick={goToPreviousPage} isDisabled={isFirstPage}>
+        Previous
+      </Button>
+      <Input type="number" defaultValue={currentPage} onKeyDown={handleInputKeyDown} />
+      <Button onClick={goToLastPage} isDisabled={isLastPage}>
+        Last ({pages})
+      </Button>
+      <Button onClick={goToNextPage} isDisabled={isLastPage}>
+        Next
+      </Button>
+    </Flex>
   )
 }
 

@@ -1,13 +1,13 @@
 import { Select } from '@chakra-ui/react'
 import { SortType } from '../../../interfaces'
 import { useUnit } from 'effector-react'
-import { $sortType, sortTypeChanged } from '../model'
+import { $sortType, changeUrlParamsEffect } from '../model'
 
 const Sorting = () => {
-  const [sortType, changeSortType] = useUnit([$sortType, sortTypeChanged])
+  const [sortType, changeUrlParams] = useUnit([$sortType, changeUrlParamsEffect])
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedOption = event.target.value as SortType
-    changeSortType(selectedOption)
+    changeUrlParams({ sort: selectedOption })
   }
 
   return (

@@ -28,6 +28,11 @@ const sort = (sortType: SortType) => {
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const sortType = req.query.sort as SortType
+  const page = Number(req.query.page)
+  const pageLimit = Number(req.query.pageLimit)
+  const pages = Math.ceil(data.length / pageLimit)
+
   const sortedData = sort(sortType)
-  res.status(200).json(sortedData)
+  const resultData = sortedData.slice((page - 1) * pageLimit, page * pageLimit)
+  res.status(200).json({ data: resultData, pages })
 }

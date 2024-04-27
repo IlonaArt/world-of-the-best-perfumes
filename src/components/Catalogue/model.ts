@@ -1,55 +1,32 @@
-import {
-  createEffect,
-  StoreWritable,
-  createStore,
-  sample,
-  createEvent,
-  restore,
-} from 'effector'
+import { createEffect, StoreWritable, createStore, sample, combine } from 'effector'
 import { createGate } from 'effector-react'
-import { Perfume, SortType } from '../../interfaces'
+import { type Perfume } from '../../interfaces'
 import { fetchAllPerfume } from './fetchAllPerfume'
-
-const getDefaultSortType = (): SortType => {
-  const defaultSortType = 'brand-asc'
-  if (typeof window === 'undefined') return defaultSortType
-  const urlParams = new URLSearchParams(window.location.search)
-  return (urlParams.get('sort') as SortType) ?? defaultSortType
-}
-
-const changeUrlParams = (params: { sort: SortType }) => {
-  if (typeof window === 'undefined') return
-  const urlParams = new URLSearchParams(window.location.search)
-  urlParams.set('sort', params.sort)
-  window.history.replaceState(null, '', `?${urlParams.toString()}`)
-}
+import { changeUrlParams, getDefaultUrlParams } from './lib/urlParams'
 
 export const PerfumeGate = createGate()
 
-export const sortTypeChanged = createEvent<SortType>()
-
 export const fetchDataSideEffect = createEffect(fetchAllPerfume)
-const changeUrlParamsEffect = createEffect(changeUrlParams)
+export const changeUrlParamsEffect = createEffect(changeUrlParams)
 
 export const $data: StoreWritable<Perfume[]> = createStore(null)
-export const $sortType: StoreWritable<SortType> = restore(
-  sortTypeChanged,
-  getDefaultSortType(),
-)
 export const $error = createStore(null)
+export const $urlParams = createStore(getDefaultUrlParams())
+export const $sortType = combine($urlParams, urlParams => urlParams.sort)
+export const $currentPage = combine($urlParams, urlParams => urlParams.page)
+export const $pages = createStore(1)
 
-$data.on(fetchDataSideEffect.doneData, (_, data) => data)
+$data.on(fetchDataSideEffect.doneData, (_, data) => data.data)
+$pages.on(fetchDataSideEffect.doneData, (_, data) => data.pages)
 $error.on(fetchDataSideEffect.failData, (_, error) => error.message)
 
 sample({
-  clock: [PerfumeGate.open, $sortType],
-  source: $sortType,
-  fn: sortType => ({ sort: sortType }),
+  clock: [PerfumeGate.open, $urlParams],
+  source: $urlParams,
   target: fetchDataSideEffect,
 })
 
 sample({
-  clock: sortTypeChanged,
-  fn: sortType => ({ sort: sortType }),
-  target: changeUrlParamsEffect,
+  clock: changeUrlParamsEffect.doneData,
+  target: $urlParams,
 })

@@ -16,4 +16,10 @@ export interface PerfumeList {
 
 export type Page = 'home' | 'catalogue'
 
-export type SortType = 'brand-asc' | 'brand-desc' | 'price-asc' | 'price-desc'
+export const SortTypes = ['brand-asc', 'brand-desc', 'price-asc', 'price-desc'] as const
+
+export type SortType = (typeof SortTypes)[number]
+
+export const isSortType = (value: unknown): value is SortType => {
+  return SortTypes.includes(value as SortType)
+}

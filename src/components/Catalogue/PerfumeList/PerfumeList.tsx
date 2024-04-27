@@ -1,7 +1,7 @@
 import { Box, Grid, Text, Spinner } from '@chakra-ui/react'
 import Card from './Card'
 import Pagination from '../Pagination'
-import { Perfume } from '../../../interfaces'
+import { type Perfume } from '../../../interfaces'
 
 interface PerfumeListProps {
   data: Perfume[]
@@ -47,7 +47,7 @@ const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
           />
         ))}
       </Grid>
-      {/* <Pagination amount={data.length} /> */}
+      <Pagination />
     </Box>
   )
 }
