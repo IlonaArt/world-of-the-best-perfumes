@@ -141,5 +141,16 @@
     "volume": [30, 100],
     "type": "women",
     "family": ["oriental", "floral"]
+  },
+  {
+    "brand": "Mugler",
+    "title": "Alien EDP",
+    "photo": "alien",
+    "price": [45, 65, 95],
+    "discount": [35, 55, 85],
+    "description": "Top note is Jasmine Sambac; middle note is Cashmeran; base note is Amber.",
+    "volume": [15, 60, 100],
+    "type": "women",
+    "family": ["oriental", "floral"]
   }
 ]

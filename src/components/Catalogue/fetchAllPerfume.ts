@@ -3,8 +3,9 @@ import { fetchData } from '../../utils/fetchData'
 import { ResponseWithPagination } from '../../utils/types'
 import { toUrlParams } from './lib/urlParams'
 
-export interface Params extends Record<string, string | number> {
+export interface Params {
   sort: SortType
+  filters?: { brand?: string }
   page: number
   pageLimit: number
 }

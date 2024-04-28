@@ -20,6 +20,7 @@ export const parseStringToNumber = (
 
 export const parseUrlParams = (urlParams: URLSearchParams): Params => {
   const sort = parseStringToSortType(urlParams.get('sort')) ?? defaultParams.sort
+  const brand = urlParams.get('brand')
   const page =
     parseStringToNumber(urlParams.get('page'), [1, Infinity]) ?? defaultParams.page
   const pageLimit =
@@ -27,6 +28,7 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
     defaultParams.pageLimit
   return {
     sort,
+    filters: { brand },
     page,
     pageLimit,
   }
@@ -41,13 +43,35 @@ export const getDefaultUrlParams = (): Params => {
 export const changeUrlParams = (params: Partial<Params>): Params => {
   if (typeof window === 'undefined') return
   const urlParams = new URLSearchParams(window.location.search)
-  Object.entries(params).forEach(([key, value]) => urlParams.set(key, value.toString()))
+  Object.entries(params).forEach(([key, value]) => {
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([key, value]) => {
+        if (value === undefined) {
+          urlParams.delete(key)
+        } else {
+          urlParams.set(key, value.toString())
+        }
+      })
+    } else {
+      urlParams.set(key, value.toString())
+    }
+  })
   window.history.replaceState(null, '', `?${urlParams.toString()}`)
   return parseUrlParams(urlParams)
 }
 
 export const toUrlParams = (params: Partial<Params>) => {
   const urlParams = new URLSearchParams()
-  Object.entries(params).forEach(([key, value]) => urlParams.set(key, value.toString()))
+  Object.entries(params).forEach(([key, value]) => {
+    if (typeof value === 'object') {
+      Object.entries(value).forEach(([key, value]) => {
+        if (value) {
+          urlParams.set(key, value.toString())
+        }
+      })
+    } else {
+      urlParams.set(key, value.toString())
+    }
+  })
   return urlParams.toString()
 }

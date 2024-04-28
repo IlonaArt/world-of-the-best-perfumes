@@ -1,7 +1,6 @@
 import RootLayout from '../components/RootLayout'
 import { Box, Heading, Flex, Spinner } from '@chakra-ui/react'
 import PerfumeList from '../components/Catalogue/PerfumeList/PerfumeList'
-import Filters from '../components/Catalogue/Filters/Filters'
 import { useGate, useUnit } from 'effector-react'
 import {
   $data,
@@ -9,6 +8,7 @@ import {
   PerfumeGate,
   fetchDataSideEffect,
 } from '../components/Catalogue/model'
+import FiltersAndSorting from '../components/Catalogue/FiltersAndSorting'
 
 const CataloguePage = () => {
   useGate(PerfumeGate)
@@ -33,7 +33,7 @@ const CataloguePage = () => {
           direction={{ base: 'column', xl: 'row' }}
           mb={{ base: 10, xl: '60px' }}
         >
-          <Filters />
+          <FiltersAndSorting />
           {data ? (
             <PerfumeList data={data} error={error} loading={loading} />
           ) : (

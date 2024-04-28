@@ -1,8 +1,8 @@
-import { SortType } from '../../interfaces'
+import { Perfume, SortType } from '../../interfaces'
 import data from './dataFragrances.json'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-const sort = (sortType: SortType) => {
+const sort = (data: Perfume[], sortType: SortType) => {
   const newSortedData = [...data].sort((perfume1, perfume2) => {
     const brand1 = perfume1.brand.toUpperCase()
     const brand2 = perfume2.brand.toUpperCase()
@@ -27,12 +27,19 @@ const sort = (sortType: SortType) => {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  const brand = req.query.brand
   const sortType = req.query.sort as SortType
   const page = Number(req.query.page)
   const pageLimit = Number(req.query.pageLimit)
-  const pages = Math.ceil(data.length / pageLimit)
 
-  const sortedData = sort(sortType)
+  let filteredData = data
+  if (brand) {
+    filteredData = filteredData.filter(perfume => perfume.brand === brand)
+  }
+  const sortedData = sort(filteredData, sortType)
+
   const resultData = sortedData.slice((page - 1) * pageLimit, page * pageLimit)
+  const pages = Math.ceil(filteredData.length / pageLimit)
+
   res.status(200).json({ data: resultData, pages })
 }

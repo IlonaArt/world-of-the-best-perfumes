@@ -1,6 +1,6 @@
 import { Select } from '@chakra-ui/react'
 
-const DiscountFilter = () => {
+const PriceFilter = () => {
   return (
     <Select
       defaultValue="all discounts"
@@ -21,4 +21,4 @@ const DiscountFilter = () => {
   )
 }
 
-export default DiscountFilter
+export default PriceFilter

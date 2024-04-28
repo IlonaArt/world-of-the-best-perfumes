@@ -12,6 +12,7 @@ import lostCherry from '../../../public/images/lost-cherry.jpg'
 import laPanthere from '../../../public/images/la-panthere.jpg'
 import lira from '../../../public/images/lira.jpg'
 import angelDemon from '../../../public/images/angel-ou-demon.jpg'
+import alien from '../../../public/images/alien.jpg'
 import { Box } from '@chakra-ui/react'
 
 const IMAGES_SOURCES = {
@@ -28,6 +29,7 @@ const IMAGES_SOURCES = {
   laPanthere: laPanthere,
   lira: lira,
   angelDemon: angelDemon,
+  alien: alien,
 }
 
 const PerfumeImage = ({ photo, title }: { photo: string; title: string }) => {

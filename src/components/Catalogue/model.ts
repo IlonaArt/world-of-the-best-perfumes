@@ -13,6 +13,7 @@ export const $data: StoreWritable<Perfume[]> = createStore(null)
 export const $error = createStore(null)
 export const $urlParams = createStore(getDefaultUrlParams())
 export const $sortType = combine($urlParams, urlParams => urlParams.sort)
+export const $filters = combine($urlParams, urlParams => urlParams.filters)
 export const $currentPage = combine($urlParams, urlParams => urlParams.page)
 export const $pages = createStore(1)
 
