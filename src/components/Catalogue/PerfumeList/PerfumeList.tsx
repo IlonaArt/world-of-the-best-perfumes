@@ -33,7 +33,7 @@ const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
   if (!data) return null
 
   return (
-    <Box>
+    <Box flexGrow={1}>
       <Grid
         as="ul"
         templateColumns={{
