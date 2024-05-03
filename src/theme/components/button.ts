@@ -9,6 +9,14 @@ const baseStyle = defineStyle({
   _disabled: {
     bg: colors.disabled,
     color: colors.white,
+    borderColor: colors.disabled,
+    opacity: 0.4,
+  },
+  _hover: {
+    _disabled: {
+      bg: colors.disabled,
+      opacity: 0.4,
+    },
   },
 })
 

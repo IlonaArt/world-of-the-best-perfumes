@@ -1,6 +1,9 @@
-import { Button, Flex, Input } from '@chakra-ui/react'
+import { Button, Flex, Input, Text } from '@chakra-ui/react'
 import { useUnit } from 'effector-react'
 import { $currentPage, $pages, changeUrlParamsEffect } from './model'
+import PrevIcon from '../../public/prev-icon.svg'
+import NextIcon from '../../public/next-icon.svg'
+import { colors } from '../../theme/foundations/colors'
 
 const Pagination = () => {
   const [currentPage, pages, changeUrlParams] = useUnit([
@@ -44,19 +47,47 @@ const Pagination = () => {
   }
 
   return (
-    <Flex>
-      <Button onClick={goToFirstPage} isDisabled={isFirstPage}>
+    <Flex gap={2} justifyContent={{ base: 'initial', md: 'center' }}>
+      <Button width="38px" px={3} onClick={goToFirstPage} isDisabled={isFirstPage}>
         1
       </Button>
-      <Button onClick={goToPreviousPage} isDisabled={isFirstPage}>
-        Previous
+      <Button
+        px={3}
+        onClick={goToPreviousPage}
+        isDisabled={isFirstPage}
+        flexShrink="0"
+        leftIcon={
+          <PrevIcon width={14} iconColor={!isFirstPage ? 'black' : colors.disabled} />
+        }
+      >
+        <Text display={{ base: 'none', md: 'block' }}>Prev</Text>
       </Button>
-      <Input type="number" defaultValue={currentPage} onKeyDown={handleInputKeyDown} />
-      <Button onClick={goToLastPage} isDisabled={isLastPage}>
+      <Button
+        px={3}
+        onClick={goToNextPage}
+        isDisabled={isLastPage}
+        flexShrink="0"
+        rightIcon={<NextIcon width={14} color="black" />}
+      >
+        <Text display={{ base: 'none', md: 'block' }}>Next</Text>
+      </Button>
+      <Input
+        width={{ base: '100%', lg: '82px' }}
+        p={3}
+        textAlign="center"
+        type="number"
+        borderColor={colors.black}
+        defaultValue={currentPage}
+        onKeyDown={handleInputKeyDown}
+      />
+      <Button
+        ml={{ base: 'auto', lg: 'initial' }}
+        px={3}
+        flexShrink="0"
+        onClick={goToLastPage}
+        isDisabled={isLastPage}
+      >
         Last ({pages})
-      </Button>
-      <Button onClick={goToNextPage} isDisabled={isLastPage}>
-        Next
       </Button>
     </Flex>
   )

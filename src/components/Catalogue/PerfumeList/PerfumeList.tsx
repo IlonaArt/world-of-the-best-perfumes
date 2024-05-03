@@ -34,6 +34,7 @@ const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
         flexGrow={1}
         gap={{ base: '16px', lg: '40px' }}
         listStyleType="none"
+        mb={{ base: '30px', lg: '60px' }}
       >
         {data.map(item => (
           <Card

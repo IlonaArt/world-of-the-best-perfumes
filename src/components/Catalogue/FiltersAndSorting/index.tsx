@@ -9,7 +9,7 @@ const FiltersAndSorting = () => {
       minW={{ base: 'auto', xl: '296px' }}
       justify={{ base: 'space-between', xl: 'initial' }}
       direction={{ base: 'row', xl: 'column' }}
-      mb={{ base: 0, xl: 5 }}
+      mb="0"
       gap="40px"
     >
       <Sorting />

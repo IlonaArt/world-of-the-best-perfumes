@@ -20,7 +20,6 @@ const Sorting = () => {
             size="lg"
             variant="outline"
             name="sort"
-            mb={5}
             backgroundColor="white"
             borderColor="transparent"
             filter="drop-shadow(2px 2px 4px #DDD9D6)"
