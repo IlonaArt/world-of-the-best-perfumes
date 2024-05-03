@@ -1,7 +1,9 @@
 import { Box, Grid, Text, Spinner } from '@chakra-ui/react'
 import Card from './Card'
-import Pagination from '../Pagination'
+import Pagination from '../../Pagination'
 import { type Perfume } from '../../../interfaces'
+import { useUnit } from 'effector-react'
+import { $currentPage, $pages, changeUrlParamsEffect } from '../model'
 
 interface PerfumeListProps {
   data: Perfume[]
@@ -10,6 +12,16 @@ interface PerfumeListProps {
 }
 
 const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
+  const [currentPage, pages, changeUrlParams] = useUnit([
+    $currentPage,
+    $pages,
+    changeUrlParamsEffect,
+  ])
+
+  const changePage = (page: number) => {
+    changeUrlParams({ page })
+  }
+
   if (loading) {
     return <Spinner />
   }
@@ -48,7 +60,7 @@ const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
           />
         ))}
       </Grid>
-      <Pagination />
+      <Pagination pages={pages} currentPage={currentPage} onChange={changePage} />
     </Box>
   )
 }

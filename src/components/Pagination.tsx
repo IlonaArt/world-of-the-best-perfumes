@@ -1,49 +1,43 @@
 import { Button, Flex, Input, Text } from '@chakra-ui/react'
-import { useUnit } from 'effector-react'
-import { $currentPage, $pages, changeUrlParamsEffect } from './model'
-import PrevIcon from '../../public/prev-icon.svg'
-import NextIcon from '../../public/next-icon.svg'
-import { colors } from '../../theme/foundations/colors'
+import PrevIcon from '../public/prev-icon.svg'
+import NextIcon from '../public/next-icon.svg'
+import { colors } from '../theme/foundations/colors'
 
-const Pagination = () => {
-  const [currentPage, pages, changeUrlParams] = useUnit([
-    $currentPage,
-    $pages,
-    changeUrlParamsEffect,
-  ])
+interface PaginationProps {
+  pages: number
+  currentPage: number
+  onChange: (page: number) => void
+}
 
+const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
   const isFirstPage = currentPage === 1
   const isLastPage = currentPage === pages
 
-  const changePage = (page: number) => {
-    changeUrlParams({ page })
-  }
-
   const goToFirstPage = () => {
     if (isFirstPage) return
-    changePage(1)
+    onChange(1)
   }
 
   const goToLastPage = () => {
     if (isLastPage) return
-    changePage(pages)
+    onChange(pages)
   }
 
   const goToPreviousPage = () => {
     if (isFirstPage) return
-    changePage(currentPage - 1)
+    onChange(currentPage - 1)
   }
 
   const goToNextPage = () => {
     if (isLastPage) return
-    changePage(currentPage + 1)
+    onChange(currentPage + 1)
   }
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     let inputValue = Number(event.currentTarget.value)
     if (Number.isNaN(inputValue) || event.code !== 'Enter') return
     inputValue = Math.max(Math.min(inputValue, pages), 1)
-    changePage(inputValue)
+    onChange(inputValue)
   }
 
   return (
