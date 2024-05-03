@@ -6,7 +6,7 @@ const FiltersAndSorting = () => {
   return (
     <Flex
       flexShrink={0}
-      minW={{ base: 'auto', xl: '296px' }}
+      maxW={{ base: 'auto', xl: '296px' }}
       justify={{ base: 'space-between', xl: 'initial' }}
       direction={{ base: 'row', xl: 'column' }}
       mb="0"

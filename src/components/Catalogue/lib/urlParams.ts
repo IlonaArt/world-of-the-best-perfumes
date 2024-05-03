@@ -1,6 +1,6 @@
 import { SortType, isSortType } from '../../../interfaces'
 import { defaultParams } from '../constants'
-import { Params } from '../fetchAllPerfume'
+import { Params } from '../fetchPerfume'
 
 export const parseStringToSortType = (value: string | undefined): SortType => {
   if (!value || !isSortType(value)) return
@@ -21,6 +21,8 @@ export const parseStringToNumber = (
 export const parseUrlParams = (urlParams: URLSearchParams): Params => {
   const sort = parseStringToSortType(urlParams.get('sort')) ?? defaultParams.sort
   const brand = urlParams.get('brand')
+  const minPrice = parseStringToNumber(urlParams.get('minPrice'), [0, Infinity])
+  const maxPrice = parseStringToNumber(urlParams.get('maxPrice'), [0, Infinity])
   const page =
     parseStringToNumber(urlParams.get('page'), [1, Infinity]) ?? defaultParams.page
   const pageLimit =
@@ -28,7 +30,7 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
     defaultParams.pageLimit
   return {
     sort,
-    filters: { brand },
+    filters: { brand, minPrice, maxPrice },
     page,
     pageLimit,
   }

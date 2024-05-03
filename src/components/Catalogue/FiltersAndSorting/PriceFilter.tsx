@@ -1,23 +1,38 @@
-import { Select } from '@chakra-ui/react'
+import { Grid, Input } from '@chakra-ui/react'
+import { useUnit } from 'effector-react'
+import { $filters } from '../model'
 
 const PriceFilter = () => {
+  const filters = useUnit($filters)
+
   return (
-    <Select
-      defaultValue="all discounts"
-      size="lg"
-      variant="outline"
-      name="discount"
-      id="discount"
-      mb={5}
-      backgroundColor="white"
-      borderColor="transparent"
-      filter="drop-shadow(2px 2px 4px #DDD9D6)"
-      cursor="pointer"
-    >
-      <option value="all discounts">All discounts</option>
-      {/* next one does filter with and without discounts */}
-      <option value="under €100">Under €100</option>
-    </Select>
+    <fieldset>
+      <legend>Price</legend>
+      <Grid templateColumns="repeat(2, 1fr)" gap={3} mt="14px">
+        <label>
+          From
+          <Input
+            defaultValue={filters?.minPrice}
+            type="number"
+            name="minPrice"
+            bg="white"
+            filter="drop-shadow(2px 2px 4px #DDD9D6)"
+            borderColor="transparent"
+          />
+        </label>
+        <label>
+          To
+          <Input
+            defaultValue={filters?.maxPrice}
+            type="number"
+            name="maxPrice"
+            bg="white"
+            filter="drop-shadow(2px 2px 4px #DDD9D6)"
+            borderColor="transparent"
+          />
+        </label>
+      </Grid>
+    </fieldset>
   )
 }
 

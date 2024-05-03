@@ -5,12 +5,16 @@ import { toUrlParams } from './lib/urlParams'
 
 export interface Params {
   sort: SortType
-  filters?: { brand?: string }
+  filters?: {
+    brand?: string
+    minPrice?: number
+    maxPrice?: number
+  }
   page: number
   pageLimit: number
 }
 
-export const fetchAllPerfume = (params: Partial<Params>) =>
+export const fetchPerfume = (params: Partial<Params>) =>
   fetchData<ResponseWithPagination<Perfume[]>>(
-    `/api/getAllPerfumeData?sort=${toUrlParams(params)}`,
+    `/api/getPerfumeData?sort=${toUrlParams(params)}`,
   )

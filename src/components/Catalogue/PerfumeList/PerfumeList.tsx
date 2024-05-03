@@ -42,21 +42,19 @@ const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
           lg: 'repeat(3, 1fr)',
           '2xl': 'repeat(4, 1fr)',
         }}
-        alignSelf="flex-end"
-        flexGrow={1}
         gap={{ base: '16px', lg: '40px' }}
         listStyleType="none"
         mb={{ base: '30px', lg: '60px' }}
       >
         {data.map(item => (
           <Card
-            key={item?.title}
-            photo={item?.photo}
-            title={item?.title}
-            brand={item?.brand}
-            price={item?.price}
-            discount={item?.discount}
-            volume={item?.volume}
+            key={item.title}
+            photo={item.photo}
+            title={item.title}
+            brand={item.brand}
+            price={item.price}
+            discount={item.discount}
+            volume={item.volume}
           />
         ))}
       </Grid>

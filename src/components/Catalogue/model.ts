@@ -1,12 +1,12 @@
 import { createEffect, StoreWritable, createStore, sample, combine } from 'effector'
 import { createGate } from 'effector-react'
 import { type Perfume } from '../../interfaces'
-import { fetchAllPerfume } from './fetchAllPerfume'
+import { fetchPerfume } from './fetchPerfume'
 import { changeUrlParams, getDefaultUrlParams } from './lib/urlParams'
 
 export const PerfumeGate = createGate()
 
-export const fetchDataSideEffect = createEffect(fetchAllPerfume)
+export const fetchDataSideEffect = createEffect(fetchPerfume)
 export const changeUrlParamsEffect = createEffect(changeUrlParams)
 
 export const $data: StoreWritable<Perfume[]> = createStore(null)

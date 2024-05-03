@@ -31,11 +31,26 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const sortType = req.query.sort as SortType
   const page = Number(req.query.page)
   const pageLimit = Number(req.query.pageLimit)
+  const minPrice = Number(req.query.minPrice || 0)
+  const maxPrice = Number(req.query.maxPrice || Infinity)
 
   let filteredData = data
   if (brand) {
     filteredData = filteredData.filter(perfume => perfume.brand === brand)
   }
+
+  if (minPrice) {
+    filteredData = filteredData.filter(
+      perfume => (perfume.discount[0] || perfume.price[0]) >= minPrice,
+    )
+  }
+
+  if (maxPrice) {
+    filteredData = filteredData.filter(
+      perfume => (perfume.discount[0] || perfume.price[0]) <= maxPrice,
+    )
+  }
+
   const sortedData = sort(filteredData, sortType)
 
   const resultData = sortedData.slice((page - 1) * pageLimit, page * pageLimit)
