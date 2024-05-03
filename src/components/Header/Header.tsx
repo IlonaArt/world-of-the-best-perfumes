@@ -1,12 +1,18 @@
 import SearchField from './SearchField'
 import React from 'react'
 import LogoIcon from '../../public/logo.svg'
-import Account from './Account'
+import Login from './Login'
 import Cart from './Cart'
 import Wishlist from './Wishlist'
 import { Box, Flex } from '@chakra-ui/react'
 
-const Header = () => {
+interface HeaderProps {
+  onClose: () => void
+  onOpen: () => void
+  showLoginModal: boolean
+}
+
+const Header = ({ onClose, onOpen, showLoginModal }: HeaderProps) => {
   return (
     <Flex
       justifyContent="space-between"
@@ -25,7 +31,7 @@ const Header = () => {
       </Box>
       <Flex alignItems="center" gap={{ base: '14px', md: '40px' }}>
         <SearchField />
-        <Account />
+        <Login onClose={onClose} onOpen={onOpen} showLoginModal={showLoginModal} />
         <Cart />
         <Wishlist />
       </Flex>
