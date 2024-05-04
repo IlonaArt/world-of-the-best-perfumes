@@ -5,6 +5,8 @@ import { useUnit } from 'effector-react'
 import { $filters, changeUrlParamsEffect } from '../model'
 import PriceFilter from './PriceFilter'
 
+const ALLOWED_FILTERS = ['brand', 'minPrice', 'maxPrice'] as const
+
 const Filters = () => {
   const [filters, changeUrlParams] = useUnit([$filters, changeUrlParamsEffect])
 
@@ -13,7 +15,13 @@ const Filters = () => {
     const formData = new FormData(event.currentTarget)
     const filters = Object.fromEntries(formData.entries())
     Object.entries(filters).forEach(([key, value]) => {
-      if ((key === 'brand' && value === 'All brands') || value === '') {
+      if (!ALLOWED_FILTERS.includes(key as any)) delete filters[key]
+      if (
+        value === '' ||
+        (key === 'brand' && value === 'All brands') ||
+        ((key === 'minPrice' || key === 'maxPrice') &&
+          (Number.isNaN(Number(value)) || Number(value) < 0))
+      ) {
         filters[key] = undefined
       }
     })
