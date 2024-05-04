@@ -16,7 +16,7 @@ const SortingButton = () => {
     >
       {['sm', 'md', 'lg'].includes(breakpoint) && <SortingIcon aria-hidden />}
       <Text
-        fontSize="sm"
+        fontSize={{ base: 'sm', xl: 'lg' }}
         lineHeight={{ base: 'lg', xl: 'sm' }}
         mb={{ base: 0, xl: '14px' }}
       >

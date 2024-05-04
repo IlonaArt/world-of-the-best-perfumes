@@ -16,11 +16,11 @@ const FilterButton = () => {
     >
       {['sm', 'md', 'lg'].includes(breakpoint) && <FilterIcon aria-hidden />}
       <Text
-        fontSize="sm"
+        fontSize={{ base: 'sm', xl: 'lg' }}
         lineHeight={{ base: 'lg', xl: 'sm' }}
         mb={{ base: 0, xl: '14px' }}
       >
-        Filter
+        Filters
       </Text>
     </Button>
   )

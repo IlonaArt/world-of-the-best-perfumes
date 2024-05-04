@@ -1,4 +1,4 @@
-import { Grid, Input } from '@chakra-ui/react'
+import { Grid, Input, Text } from '@chakra-ui/react'
 import { useUnit } from 'effector-react'
 import { $filters } from '../model'
 
@@ -7,12 +7,15 @@ const PriceFilter = () => {
 
   return (
     <fieldset>
-      <legend>Price</legend>
-      <Grid templateColumns="repeat(2, 1fr)" gap={3} mt="14px">
+      <Text fontSize="md" as="legend" mb={2}>
+        Price
+      </Text>
+      <Grid templateColumns="repeat(2, 1fr)" gap={3}>
         <label>
           From
           <Input
             defaultValue={filters?.minPrice}
+            fontSize="md"
             type="number"
             name="minPrice"
             bg="white"
@@ -24,6 +27,7 @@ const PriceFilter = () => {
           To
           <Input
             defaultValue={filters?.maxPrice}
+            fontSize="md"
             type="number"
             name="maxPrice"
             bg="white"

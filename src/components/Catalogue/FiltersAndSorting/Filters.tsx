@@ -3,9 +3,26 @@ import BrandFilter from './BrandFilter'
 import FilterButton from './FilterButton'
 import { useUnit } from 'effector-react'
 import { $filters, changeUrlParamsEffect } from '../model'
+import styles from './Filters.module.css'
 import PriceFilter from './PriceFilter'
+import VolumeFilter from './VolumeFilter'
 
-const ALLOWED_FILTERS = ['brand', 'minPrice', 'maxPrice'] as const
+const ALLOWED_FILTERS = [
+  'brand',
+  'minPrice',
+  'maxPrice',
+  'volume',
+  'minVolume',
+  'maxVolume',
+] as const
+
+const NUMBERED_FILTERS = [
+  'minPrice',
+  'maxPrice',
+  'volume',
+  'minVolume',
+  'maxVolume',
+] as const
 
 const Filters = () => {
   const [filters, changeUrlParams] = useUnit([$filters, changeUrlParamsEffect])
@@ -19,9 +36,14 @@ const Filters = () => {
       if (
         value === '' ||
         (key === 'brand' && value === 'All brands') ||
-        ((key === 'minPrice' || key === 'maxPrice') &&
+        (NUMBERED_FILTERS.includes(key as any) &&
           (Number.isNaN(Number(value)) || Number(value) < 0))
       ) {
+        filters[key] = undefined
+      }
+    })
+    ALLOWED_FILTERS.forEach(key => {
+      if (!filters[key]) {
         filters[key] = undefined
       }
     })
@@ -32,10 +54,11 @@ const Filters = () => {
     <Box>
       <FilterButton />
       <Box display={{ base: 'none', xl: 'block' }}>
-        <form onSubmit={handleSubmit}>
+        <form className={styles.filterForm} onSubmit={handleSubmit}>
           <BrandFilter brand={filters?.brand} />
           <PriceFilter />
-          <Button type="submit" height="auto" width="100%" mt={6}>
+          <VolumeFilter />
+          <Button type="submit" height="auto" width="100%">
             Apply filters
           </Button>
         </form>

@@ -9,6 +9,9 @@ export interface Params {
     brand?: string
     minPrice?: number
     maxPrice?: number
+    volume?: number
+    minVolume?: number
+    maxVolume?: number
   }
   page: number
   pageLimit: number

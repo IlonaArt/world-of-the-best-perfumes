@@ -23,6 +23,9 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
   const brand = urlParams.get('brand')
   const minPrice = parseStringToNumber(urlParams.get('minPrice'), [0, Infinity])
   const maxPrice = parseStringToNumber(urlParams.get('maxPrice'), [0, Infinity])
+  const volume = parseStringToNumber(urlParams.get('volume'), [0, Infinity])
+  const minVolume = parseStringToNumber(urlParams.get('minVolume'), [0, Infinity])
+  const maxVolume = parseStringToNumber(urlParams.get('maxVolume'), [0, Infinity])
   const page =
     parseStringToNumber(urlParams.get('page'), [1, Infinity]) ?? defaultParams.page
   const pageLimit =
@@ -30,7 +33,7 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
     defaultParams.pageLimit
   return {
     sort,
-    filters: { brand, minPrice, maxPrice },
+    filters: { brand, minPrice, maxPrice, volume, minVolume, maxVolume },
     page,
     pageLimit,
   }
@@ -58,6 +61,9 @@ export const changeUrlParams = (params: Partial<Params>): Params => {
       urlParams.set(key, value.toString())
     }
   })
+  if (!params.page) {
+    urlParams.set('page', '1')
+  }
   window.history.replaceState(null, '', `?${urlParams.toString()}`)
   return parseUrlParams(urlParams)
 }

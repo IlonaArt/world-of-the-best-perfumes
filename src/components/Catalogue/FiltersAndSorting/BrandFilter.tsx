@@ -1,4 +1,4 @@
-import { Select } from '@chakra-ui/react'
+import { Select, Text } from '@chakra-ui/react'
 import { useState } from 'react'
 
 interface BrandFilterProps {
@@ -9,14 +9,14 @@ const BrandFilter = ({ brand }: BrandFilterProps) => {
   const [value, setValue] = useState(brand || 'All brands')
 
   return (
-    <label>
+    <Text as="label">
       <Select
         value={value}
         onChange={event => setValue(event.target.value)}
         size="lg"
+        fontSize="md"
         variant="outline"
         name="brand"
-        mb={5}
         backgroundColor="white"
         borderColor="transparent"
         filter="drop-shadow(2px 2px 4px #DDD9D6)"
@@ -37,7 +37,7 @@ const BrandFilter = ({ brand }: BrandFilterProps) => {
         <option value="Xerjoff">Xerjoff</option>
         <option value="Givenchy">Givenchy</option>
       </Select>
-    </label>
+    </Text>
   )
 }
 

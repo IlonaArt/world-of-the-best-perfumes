@@ -33,6 +33,9 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const pageLimit = Number(req.query.pageLimit)
   const minPrice = Number(req.query.minPrice || 0)
   const maxPrice = Number(req.query.maxPrice || Infinity)
+  const volume = Number(req.query.volume || 0)
+  const minVolume = Number(req.query.minVolume || 0)
+  const maxVolume = Number(req.query.maxVolume || Infinity)
 
   let filteredData = data
   if (brand) {
@@ -49,6 +52,20 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     filteredData = filteredData.filter(
       perfume => (perfume.discount[0] || perfume.price[0]) <= maxPrice,
     )
+  }
+
+  if (volume) {
+    filteredData = filteredData.filter(perfume => perfume.volume.includes(volume))
+  } else {
+    if (minVolume) {
+      filteredData = filteredData.filter(
+        perfume => minVolume <= perfume.volume[perfume.volume.length - 1],
+      )
+    }
+
+    if (maxVolume) {
+      filteredData = filteredData.filter(perfume => maxVolume >= perfume.volume[0])
+    }
   }
 
   const sortedData = sort(filteredData, sortType)
