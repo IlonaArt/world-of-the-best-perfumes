@@ -1,34 +1,86 @@
-import { Button, Heading, Flex, Input, Text, Box } from '@chakra-ui/react'
-import Link from 'next/link'
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Input,
+  Text,
+  ModalFooter,
+  Button,
+} from '@chakra-ui/react'
+import { useState } from 'react'
 
 interface LoginModalProps {
-  onClose(): void
+  isOpen: boolean
+  onClose: () => void
 }
 
-const LoginModal = ({ onClose }: LoginModalProps) => {
+interface LoginModalContentProps {
+  onClick: () => void
+}
+
+type ModalType = 'register' | 'login'
+
+interface RegisterModalContentProps {
+  onClick: () => void
+}
+
+const LoginModalContent = ({ onClick }: LoginModalContentProps) => {
   return (
-    <Box
-      position="absolute"
-      height="100vh"
-      width="100%"
-      left="0"
-      right="0"
-      top="0"
-      bottom="0"
-      bg="rgba(0, 0, 0, 0.7)"
-      zIndex={2}
-    >
-      <Flex margin="auto" flexDirection="column" maxWidth="500px" bg="white">
-        <Button onClick={onClose}>x</Button>
-        <Heading>Login</Heading>
+    <>
+      <ModalBody>
         <form>
           <Input placeholder="email" />
           <Input placeholder="password" />
+          <Button>Login</Button>
         </form>
         <Text>Or</Text>
-        <Link href="/register">Register</Link>
-      </Flex>
-    </Box>
+      </ModalBody>
+
+      <ModalFooter>
+        <Button onClick={onClick}>Register</Button>
+      </ModalFooter>
+    </>
+  )
+}
+
+const RegisterModalContent = ({ onClick }: RegisterModalContentProps) => {
+  return (
+    <>
+      <ModalBody>
+        <form>
+          <Input placeholder="name" />
+          <Input placeholder="email" />
+          <Input placeholder="password" />
+          <Button>Register</Button>
+        </form>
+        <Button onClick={onClick}>Go to login</Button>
+      </ModalBody>
+
+      <ModalFooter></ModalFooter>
+    </>
+  )
+}
+
+const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+  const [activeModal, setActiveModal] = useState<ModalType>('login')
+
+  return (
+    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} isCentered>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Login</ModalHeader>
+        <ModalCloseButton onClick={onClose} />
+        {activeModal === 'login' && (
+          <LoginModalContent onClick={() => setActiveModal('register')} />
+        )}
+        {activeModal === 'register' && (
+          <RegisterModalContent onClick={() => setActiveModal('login')} />
+        )}
+      </ModalContent>
+    </Modal>
   )
 }
 

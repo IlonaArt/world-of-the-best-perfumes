@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import AccountIcon from '../../public/account.svg'
 import { Flex, Text } from '@chakra-ui/react'
 import LoginModal from '../Login/LoginModal'
 
 interface LoginProps {
-  onClose: () => void
   onOpen: () => void
+  onClose: () => void
   showLoginModal: boolean
 }
 
-const Login = ({ onClose, onOpen, showLoginModal }: LoginProps) => {
+const Login = ({ onOpen, onClose, showLoginModal }: LoginProps) => {
   return (
     <>
       <Flex as="a" href="#" alignItems="center" onClick={onOpen}>
@@ -28,7 +28,7 @@ const Login = ({ onClose, onOpen, showLoginModal }: LoginProps) => {
         </Text>
         <AccountIcon />
       </Flex>
-      {showLoginModal && <LoginModal onClose={onClose} />}
+      {showLoginModal && <LoginModal isOpen={showLoginModal} onClose={onClose} />}
     </>
   )
 }

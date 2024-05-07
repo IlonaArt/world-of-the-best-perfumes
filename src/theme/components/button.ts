@@ -1,11 +1,11 @@
 import { defineStyle, defineStyleConfig } from '@chakra-ui/react'
 import { colors } from '../foundations/colors'
-import { radii } from '../foundations/radius'
+import { radius } from '../foundations/radius'
 import { typography } from '../foundations/typography'
 
 const baseStyle = defineStyle({
   transition: 'all 0.3s',
-  borderRadius: radii.md,
+  borderRadius: radius.md,
   _disabled: {
     bg: colors.disabled,
     color: colors.white,

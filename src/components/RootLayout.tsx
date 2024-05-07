@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react'
 import Head from 'next/head'
-import { ChakraProvider } from '@chakra-ui/react'
+import { ChakraProvider, useDisclosure } from '@chakra-ui/react'
 import theme from '../theme'
 import { Box } from '@chakra-ui/react'
 import Header from './Header/Header'
@@ -15,7 +15,11 @@ interface Props {
 }
 
 const RootLayout = ({ children, title = 'World of the best perfumes', page }: Props) => {
-  const [showLoginModal, setShowLoginModal] = useState(false)
+  const {
+    isOpen: showLoginModal,
+    onOpen: onOpenLoginModal,
+    onClose: onCloseLoginModal,
+  } = useDisclosure()
 
   return (
     <Box
@@ -32,8 +36,8 @@ const RootLayout = ({ children, title = 'World of the best perfumes', page }: Pr
       <ChakraProvider theme={theme}>
         <Header
           showLoginModal={showLoginModal}
-          onClose={() => setShowLoginModal(false)}
-          onOpen={() => setShowLoginModal(true)}
+          onClose={onCloseLoginModal}
+          onOpen={onOpenLoginModal}
         />
         <Navigation page={page} />
         {children}
