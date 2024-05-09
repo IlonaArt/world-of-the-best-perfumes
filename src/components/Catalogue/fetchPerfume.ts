@@ -6,6 +6,7 @@ import { toUrlParams } from './lib/urlParams'
 export interface Params {
   sort: SortType
   filters?: {
+    search?: string
     brand?: string
     minPrice?: number
     maxPrice?: number

@@ -27,6 +27,7 @@ const sort = (data: Perfume[], sortType: SortType) => {
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
+  const search = (req.query.search as string)?.toLowerCase()
   const brand = req.query.brand
   const sortType = req.query.sort as SortType
   const page = Number(req.query.page)
@@ -38,6 +39,15 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const maxVolume = Number(req.query.maxVolume || Infinity)
 
   let filteredData = data
+
+  if (search) {
+    filteredData = filteredData.filter(
+      perfume =>
+        perfume.brand.toLowerCase().includes(search) ||
+        perfume.title.toLowerCase().includes(search),
+    )
+  }
+
   if (brand) {
     filteredData = filteredData.filter(perfume => perfume.brand === brand)
   }

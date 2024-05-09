@@ -6,8 +6,10 @@ import { $filters, changeUrlParamsEffect } from '../model'
 import styles from './Filters.module.css'
 import PriceFilter from './PriceFilter'
 import VolumeFilter from './VolumeFilter'
+import SearchField from './SearchField'
 
 const ALLOWED_FILTERS = [
+  'search',
   'brand',
   'minPrice',
   'maxPrice',
@@ -34,7 +36,8 @@ const Filters = () => {
     Object.entries(filters).forEach(([key, value]) => {
       if (!ALLOWED_FILTERS.includes(key as any)) delete filters[key]
       if (
-        value === '' ||
+        typeof value !== 'string' ||
+        value.trim() === '' ||
         (key === 'brand' && value === 'All brands') ||
         (NUMBERED_FILTERS.includes(key as any) &&
           (Number.isNaN(Number(value)) || Number(value) < 0))
@@ -55,6 +58,7 @@ const Filters = () => {
       <FilterButton />
       <Box display={{ base: 'none', xl: 'block' }}>
         <form className={styles.filterForm} onSubmit={handleSubmit}>
+          <SearchField />
           <BrandFilter brand={filters?.brand} />
           <PriceFilter />
           <VolumeFilter />

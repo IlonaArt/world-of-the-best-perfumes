@@ -19,6 +19,7 @@ export const parseStringToNumber = (
 }
 
 export const parseUrlParams = (urlParams: URLSearchParams): Params => {
+  const search = urlParams.get('search')
   const sort = parseStringToSortType(urlParams.get('sort')) ?? defaultParams.sort
   const brand = urlParams.get('brand')
   const minPrice = parseStringToNumber(urlParams.get('minPrice'), [0, Infinity])
@@ -33,7 +34,7 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
     defaultParams.pageLimit
   return {
     sort,
-    filters: { brand, minPrice, maxPrice, volume, minVolume, maxVolume },
+    filters: { search, brand, minPrice, maxPrice, volume, minVolume, maxVolume },
     page,
     pageLimit,
   }
