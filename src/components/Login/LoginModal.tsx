@@ -9,6 +9,7 @@ import {
   Text,
   ModalFooter,
   Button,
+  Flex,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 
@@ -27,35 +28,89 @@ interface RegisterModalContentProps {
   onClick: () => void
 }
 
+interface User {
+  name: string
+  password: string
+  email: string
+}
+
 const LoginModalContent = ({ onClick }: LoginModalContentProps) => {
   return (
     <>
-      <ModalBody>
-        <form>
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Button>Login</Button>
-        </form>
-        <Text>Or</Text>
+      <ModalBody display="flex" flexDirection="column" paddingBottom={0}>
+        <Flex as="form" flexDirection="column">
+          <Input placeholder="email" mb={3} />
+          <Input placeholder="password" mb={6} />
+          <Button type="submit" justifyContent="center" mb={3}>
+            Login
+          </Button>
+        </Flex>
+        <Text alignSelf="center" mb={3}>
+          Or
+        </Text>
       </ModalBody>
 
-      <ModalFooter>
-        <Button onClick={onClick}>Register</Button>
+      <ModalFooter paddingTop={0}>
+        <Button onClick={onClick} flex={1}>
+          Register
+        </Button>
       </ModalFooter>
     </>
   )
 }
 
 const RegisterModalContent = ({ onClick }: RegisterModalContentProps) => {
+  const [userData, setUserData] = useState<User>()
+  const [isPasswordCorrect, setIsPasswordCorrect] = useState(undefined)
+  const onRegister = () => {
+    localStorage.setItem(userData.email, JSON.stringify(userData))
+  }
+
+  const comparePasswords = (passwordSecondary: string) => {
+    if (userData.password !== passwordSecondary) {
+      setIsPasswordCorrect(false)
+    } else {
+      setIsPasswordCorrect(true)
+    }
+  }
+
   return (
     <>
       <ModalBody>
-        <form>
-          <Input placeholder="name" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Button>Register</Button>
-        </form>
+        <Flex as="form" flexDirection="column">
+          <Input
+            placeholder="name"
+            required
+            onChange={event => setUserData({ ...userData, name: event.target.value })}
+            mb={3}
+          />
+          <Input
+            placeholder="email"
+            required
+            onChange={event => setUserData({ ...userData, email: event.target.value })}
+            mb={3}
+          />
+          <Input
+            placeholder="password"
+            required
+            onChange={event => setUserData({ ...userData, password: event.target.value })}
+            mb={3}
+          />
+          <Input
+            placeholder="repeat password"
+            required
+            onChange={event => comparePasswords(event.target.value)}
+            mb={2}
+          />
+          {isPasswordCorrect === false && (
+            <Text fontSize="xs" lineHeight="xs">
+              Make sure your passwords are the same
+            </Text>
+          )}
+          <Button type="submit" onClick={onRegister} mt={4}>
+            Register
+          </Button>
+        </Flex>
         <Button onClick={onClick}>Go to login</Button>
       </ModalBody>
 
@@ -71,7 +126,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Login</ModalHeader>
+        <ModalHeader>{activeModal === 'login' ? 'Login' : 'Register'}</ModalHeader>
         <ModalCloseButton onClick={onClose} />
         {activeModal === 'login' && (
           <LoginModalContent onClick={() => setActiveModal('register')} />
