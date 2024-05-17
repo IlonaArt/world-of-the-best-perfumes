@@ -7,8 +7,8 @@ const Wishlist = () => {
     <Flex as="a" href="#" alignItems="center">
       <Text
         as="span"
-        display={{ base: 'none', md: 'block' }}
-        mr={3}
+        display={{ base: 'none', md: 'flex' }}
+        gap={3}
         fontSize="lg"
         lineHeight="lg"
         color="white"
@@ -17,8 +17,8 @@ const Wishlist = () => {
         }}
       >
         Wishlist
+        <HeartIcon />
       </Text>
-      <HeartIcon />
     </Flex>
   )
 }

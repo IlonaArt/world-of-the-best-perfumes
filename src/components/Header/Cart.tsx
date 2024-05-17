@@ -7,8 +7,8 @@ const Cart = () => {
     <Flex as="a" href="#" alignItems="center">
       <Text
         as="span"
-        display={{ base: 'none', md: 'block' }}
-        mr="12px"
+        display={{ base: 'none', md: 'flex' }}
+        gap={3}
         fontSize="lg"
         lineHeight="lg"
         color="white"
@@ -17,8 +17,8 @@ const Cart = () => {
         }}
       >
         Cart
+        <CartIcon />
       </Text>
-      <CartIcon />
     </Flex>
   )
 }

@@ -50,7 +50,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         onClick={goToPreviousPage}
         isDisabled={isFirstPage}
         flexShrink="0"
-        leftIcon={<PrevIcon width={14} fill="currentColor" />}
+        leftIcon={<PrevIcon width={14} />}
       >
         <Text display={{ base: 'none', md: 'block' }}>Prev</Text>
       </Button>
@@ -59,7 +59,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         onClick={goToNextPage}
         isDisabled={isLastPage}
         flexShrink="0"
-        rightIcon={<NextIcon width={14} fill="currentColor" />}
+        rightIcon={<NextIcon width={14} />}
       >
         <Text display={{ base: 'none', md: 'block' }}>Next</Text>
       </Button>

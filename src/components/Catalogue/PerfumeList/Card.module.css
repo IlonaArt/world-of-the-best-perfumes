@@ -1,5 +1,5 @@
-.heartIconButton :hover .heartIcon {
-  fill: 'attention';
+.heartIconButton:hover .heartIcon {
+  fill: var(--chakra-colors-attention);
 }
 
 .heartIcon {

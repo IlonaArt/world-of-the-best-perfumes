@@ -108,16 +108,17 @@ const Footer = () => {
               mb={3}
               justifyContent={{ base: 'center', md: 'left' }}
             >
-              <PhoneIcon />
               <Text
+                display="flex"
                 fontSize="md"
                 lineHeight="lg"
                 color="white"
-                ml={1}
+                gap={1}
                 _hover={{
                   color: 'beige',
                 }}
               >
+                <PhoneIcon />
                 +31 000 0000000
               </Text>
             </Flex>
@@ -128,16 +129,17 @@ const Footer = () => {
               mb={3}
               justifyContent={{ base: 'center', md: 'left' }}
             >
-              <EnvelopeIcon />
               <Text
+                display="flex"
                 fontSize="md"
                 lineHeight="lg"
                 color="white"
-                ml={2}
+                gap={2}
                 _hover={{
                   color: 'beige',
                 }}
               >
+                <EnvelopeIcon />
                 Email us
               </Text>
             </Flex>

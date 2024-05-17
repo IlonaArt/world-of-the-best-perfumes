@@ -15,8 +15,8 @@ const Login = ({ onOpen, onClose, showLoginModal }: LoginProps) => {
       <Flex as="a" href="#" alignItems="center" onClick={onOpen}>
         <Text
           as="span"
-          display={{ base: 'none', md: 'block' }}
-          mr="12px"
+          display={{ base: 'none', md: 'flex' }}
+          gap={3}
           fontSize="lg"
           lineHeight="lg"
           color="white"
@@ -25,8 +25,8 @@ const Login = ({ onOpen, onClose, showLoginModal }: LoginProps) => {
           }}
         >
           Login
+          <AccountIcon />
         </Text>
-        <AccountIcon />
       </Flex>
       {showLoginModal && <LoginModal isOpen={showLoginModal} onClose={onClose} />}
     </>
