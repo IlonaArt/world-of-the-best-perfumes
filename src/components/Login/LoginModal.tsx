@@ -39,7 +39,7 @@ const LoginModalContent = ({ onClick }: LoginModalContentProps) => {
     <>
       <ModalBody display="flex" flexDirection="column" paddingBottom={0}>
         <Flex as="form" flexDirection="column">
-          <Input placeholder="email" mb={3} />
+          <Input placeholder="email" mb={3} autoFocus />
           <Input placeholder="password" mb={6} />
           <Button type="submit" justifyContent="center" mb={3}>
             Login
@@ -81,6 +81,7 @@ const RegisterModalContent = ({ onClick }: RegisterModalContentProps) => {
           <Input
             placeholder="name"
             required
+            autoFocus
             onChange={event => setUserData({ ...userData, name: event.target.value })}
             mb={3}
           />
@@ -123,7 +124,7 @@ const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
   const [activeModal, setActiveModal] = useState<ModalType>('login')
 
   return (
-    <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal closeOnOverlayClick closeOnEsc isOpen={isOpen} onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{activeModal === 'login' ? 'Login' : 'Register'}</ModalHeader>
