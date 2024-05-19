@@ -18,21 +18,21 @@ const Navigation = ({ page }: NavigationProps) => {
         fontSize="md"
         lineHeight="md"
         _hover={{ textDecoration: 'none' }}
-        fontWeight={page === 'home' && 'bold'}
+        fontWeight={page === 'catalogue' && 'bold'}
         as={NextLink}
         href="/"
       >
-        Home
+        Catalogue
       </Link>
       <Link
         fontSize="md"
         lineHeight="md"
         _hover={{ textDecoration: 'none' }}
-        fontWeight={page === 'catalogue' && 'bold'}
+        fontWeight={page === 'about' && 'bold'}
         as={NextLink}
-        href="/catalogue"
+        href="/about"
       >
-        Catalogue
+        About
       </Link>
     </Flex>
   )

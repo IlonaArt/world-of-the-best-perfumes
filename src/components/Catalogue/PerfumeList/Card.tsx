@@ -20,7 +20,8 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
 
   return (
     <GridItem
-      width="100%"
+      display="flex"
+      flexDirection="column"
       as="li"
       position="relative"
       bg="white"
@@ -44,11 +45,19 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
             lineHeight="lg"
             mb={{ base: 2, md: 1 }}
             color="black"
+            textAlign="center"
+          >
+            {title}
+          </Heading>
+          <Text
+            as="span"
+            fontSize="md"
+            lineHeight="lg"
+            textAlign="center"
+            mb={3}
+            color="black"
           >
             {brand}
-          </Heading>
-          <Text as="span" fontSize="md" lineHeight="lg" mb={3} color="black">
-            {title}
           </Text>
           <Flex as="ul" gap={2} listStyleType="none">
             {volume.map(ml => (
@@ -69,7 +78,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex justify="center" gap="6px" mb={4}>
+      <Flex justify="center" gap="6px" mb={4} mt="auto">
         <CardPrice price={price} discount={discount} />
       </Flex>
 
@@ -83,12 +92,6 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
         px={3}
       >
         <HeartIcon className={styles.heartIcon} />
-        {/* <Image
-          className={styles.heartIcon}
-          src={isFavorite ? heartIconFilled : heartIconUnfilled}
-          alt="Add to favorites"
-          onClick={() => setIsFavorite(!isFavorite)}
-        /> */}
       </Button>
       <Link
         as={NextLink}
