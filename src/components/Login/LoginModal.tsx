@@ -9,24 +9,19 @@ import {
   Text,
   ModalFooter,
   Button,
-  Flex,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 
 interface LoginModalProps {
-  isOpen: boolean
   onClose: () => void
 }
 
-interface LoginModalContentProps {
-  onClick: () => void
+interface ModalContentProps {
+  onChangeModalType: () => void
+  onSuccess: () => void
 }
 
 type ModalType = 'register' | 'login'
-
-interface RegisterModalContentProps {
-  onClick: () => void
-}
 
 interface User {
   name: string
@@ -34,24 +29,98 @@ interface User {
   email: string
 }
 
-const LoginModalContent = ({ onClick }: LoginModalContentProps) => {
+type LoginErrorType = 'emailEmpty' | 'passwordEmpty' | 'incorrectData' | 'sww'
+
+const getLoginErrorText = (errorType: LoginErrorType) => {
+  switch (errorType) {
+    case 'emailEmpty':
+      return 'Please enter your email'
+    case 'passwordEmpty':
+      return 'Please enter your password'
+    case 'incorrectData':
+      return 'Please check your email or password'
+    case 'sww':
+    default:
+      return 'Something went wrong, please try again'
+  }
+}
+
+const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
+  const [loginErrorType, setLoginErrorType] = useState<LoginErrorType>(undefined)
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setLoginErrorType(undefined)
+    const formData = new FormData(event.currentTarget)
+
+    const email = formData.get('email') as string
+    if (!email) {
+      setLoginErrorType('emailEmpty')
+      return
+    }
+
+    const password = formData.get('password') as string
+    if (!password) {
+      setLoginErrorType('passwordEmpty')
+      return
+    }
+
+    const userData = localStorage.getItem(email)
+    if (!userData) {
+      setLoginErrorType('incorrectData')
+      return
+    }
+
+    try {
+      const user = JSON.parse(userData) as User
+      if (user.password !== password) {
+        setLoginErrorType('incorrectData')
+        return
+      }
+      localStorage.setItem('user', JSON.stringify(user))
+      onSuccess()
+    } catch (error) {
+      setLoginErrorType('sww')
+      console.error('Error parsing JSON:', error)
+    }
+  }
+
   return (
     <>
       <ModalBody display="flex" flexDirection="column" paddingBottom={0}>
-        <Flex as="form" flexDirection="column">
-          <Input placeholder="email" mb={3} autoFocus />
-          <Input placeholder="password" mb={6} />
-          <Button type="submit" justifyContent="center" mb={3}>
+        <form onSubmit={handleSubmit}>
+          <Input
+            type="email"
+            isInvalid={
+              loginErrorType === 'emailEmpty' || loginErrorType === 'incorrectData'
+            }
+            name="email"
+            placeholder="email"
+            mb={3}
+            autoFocus
+          />
+          <Input
+            type="password"
+            isInvalid={
+              loginErrorType === 'passwordEmpty' || loginErrorType === 'incorrectData'
+            }
+            name="password"
+            placeholder="password"
+          />
+          <Text h={6} mt={3}>
+            {loginErrorType && getLoginErrorText(loginErrorType)}
+          </Text>
+          <Button type="submit" justifyContent="center" w="100%" mb={3} mt={4}>
             Login
           </Button>
-        </Flex>
+        </form>
         <Text alignSelf="center" mb={3}>
           Or
         </Text>
       </ModalBody>
 
       <ModalFooter paddingTop={0}>
-        <Button onClick={onClick} flex={1}>
+        <Button onClick={onChangeModalType} flex={1}>
           Register
         </Button>
       </ModalFooter>
@@ -59,11 +128,14 @@ const LoginModalContent = ({ onClick }: LoginModalContentProps) => {
   )
 }
 
-const RegisterModalContent = ({ onClick }: RegisterModalContentProps) => {
+const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
   const [userData, setUserData] = useState<User>()
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(undefined)
+
   const onRegister = () => {
     localStorage.setItem(userData.email, JSON.stringify(userData))
+    localStorage.setItem('user', JSON.stringify(userData))
+    onSuccess()
   }
 
   const comparePasswords = (passwordSecondary: string) => {
@@ -77,8 +149,9 @@ const RegisterModalContent = ({ onClick }: RegisterModalContentProps) => {
   return (
     <>
       <ModalBody>
-        <Flex as="form" flexDirection="column">
+        <form>
           <Input
+            type="text"
             placeholder="name"
             required
             autoFocus
@@ -86,54 +159,64 @@ const RegisterModalContent = ({ onClick }: RegisterModalContentProps) => {
             mb={3}
           />
           <Input
+            type="email"
             placeholder="email"
             required
             onChange={event => setUserData({ ...userData, email: event.target.value })}
             mb={3}
           />
           <Input
+            type="password"
             placeholder="password"
             required
             onChange={event => setUserData({ ...userData, password: event.target.value })}
             mb={3}
           />
           <Input
+            type="password"
             placeholder="repeat password"
             required
             onChange={event => comparePasswords(event.target.value)}
-            mb={2}
           />
-          {isPasswordCorrect === false && (
-            <Text fontSize="xs" lineHeight="xs">
-              Make sure your passwords are the same
-            </Text>
-          )}
-          <Button type="submit" onClick={onRegister} mt={4}>
+          <Text fontSize="xs" lineHeight="xs" mt={3} height={6}>
+            {isPasswordCorrect === false && 'Make sure your passwords are the same'}
+          </Text>
+          <Button w="100%" type="submit" onClick={onRegister} mt={4} mb={3}>
             Register
           </Button>
-        </Flex>
-        <Button onClick={onClick}>Go to login</Button>
+        </form>
+        <Button w="100%" onClick={onChangeModalType}>
+          Go to login
+        </Button>
       </ModalBody>
-
-      <ModalFooter></ModalFooter>
     </>
   )
 }
 
-const LoginModal = ({ isOpen, onClose }: LoginModalProps) => {
+const LoginModal = ({ onClose }: LoginModalProps) => {
   const [activeModal, setActiveModal] = useState<ModalType>('login')
 
+  const handleSuccess = () => {
+    window.location.reload()
+  }
+
   return (
-    <Modal closeOnOverlayClick closeOnEsc isOpen={isOpen} onClose={onClose} isCentered>
+    <Modal closeOnOverlayClick closeOnEsc isOpen onClose={onClose} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>{activeModal === 'login' ? 'Login' : 'Register'}</ModalHeader>
         <ModalCloseButton onClick={onClose} />
         {activeModal === 'login' && (
-          <LoginModalContent onClick={() => setActiveModal('register')} />
+          <LoginModalContent
+            onChangeModalType={() => setActiveModal('register')}
+            onSuccess={handleSuccess}
+          />
         )}
         {activeModal === 'register' && (
-          <RegisterModalContent onClick={() => setActiveModal('login')} />
+          <RegisterModalContent
+            onChangeModalType={() => setActiveModal('login')}
+            onSuccess={handleSuccess}
+          />
         )}
       </ModalContent>
     </Modal>

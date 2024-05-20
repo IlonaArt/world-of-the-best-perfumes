@@ -1,17 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import LogoIcon from '../../public/logo.svg'
 import Login from './Login'
 import Cart from './Cart'
 import Wishlist from './Wishlist'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Text } from '@chakra-ui/react'
 
-interface HeaderProps {
-  onClose: () => void
-  onOpen: () => void
-  showLoginModal: boolean
-}
+const Header = () => {
+  const [user, setUser] = useState<{ name: string }>()
 
-const Header = ({ onClose, onOpen, showLoginModal }: HeaderProps) => {
+  useEffect(() => {
+    const userFromLocalStorage = localStorage.getItem('user')
+    if (userFromLocalStorage) {
+      setUser(JSON.parse(userFromLocalStorage))
+    }
+  }, [])
+
   return (
     <Flex
       justifyContent="space-between"
@@ -29,7 +32,13 @@ const Header = ({ onClose, onOpen, showLoginModal }: HeaderProps) => {
         <LogoIcon />
       </Box>
       <Flex alignItems="center" gap={{ base: '14px', md: '40px' }}>
-        <Login onClose={onClose} onOpen={onOpen} showLoginModal={showLoginModal} />
+        {user ? (
+          <Text fontSize="lg" lineHeight="lg" color="white">
+            Hi, {user.name}!
+          </Text>
+        ) : (
+          <Login />
+        )}
         <Cart />
         <Wishlist />
       </Flex>
