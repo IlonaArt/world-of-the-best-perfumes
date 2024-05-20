@@ -7,4 +7,5 @@ export const colors = {
   bgNav: '#F1EEEC',
   attention: '#CA17A2',
   disabled: '#CACACA',
+  errorText: '#D9001A',
 }

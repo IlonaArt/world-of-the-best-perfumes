@@ -87,27 +87,35 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
 
   return (
     <>
-      <ModalBody display="flex" flexDirection="column" paddingBottom={0}>
+      <ModalBody display="flex" flexDirection="column" paddingBottom={6}>
         <form onSubmit={handleSubmit}>
-          <Input
-            type="email"
-            isInvalid={
-              loginErrorType === 'emailEmpty' || loginErrorType === 'incorrectData'
-            }
-            name="email"
-            placeholder="email"
-            mb={3}
-            autoFocus
-          />
-          <Input
-            type="password"
-            isInvalid={
-              loginErrorType === 'passwordEmpty' || loginErrorType === 'incorrectData'
-            }
-            name="password"
-            placeholder="password"
-          />
-          <Text h={6} mt={3}>
+          <label>
+            Email
+            <Input
+              mt={1}
+              type="email"
+              isInvalid={
+                loginErrorType === 'emailEmpty' || loginErrorType === 'incorrectData'
+              }
+              name="email"
+              placeholder="email"
+              mb={3}
+              autoFocus
+            />
+          </label>
+          <label>
+            Password
+            <Input
+              mt={1}
+              type="password"
+              isInvalid={
+                loginErrorType === 'passwordEmpty' || loginErrorType === 'incorrectData'
+              }
+              name="password"
+              placeholder="password"
+            />
+          </label>
+          <Text h={5} fontSize="xs" lineHeight="xs" mt={1} color="errorText">
             {loginErrorType && getLoginErrorText(loginErrorType)}
           </Text>
           <Button type="submit" justifyContent="center" w="100%" mb={3} mt={4}>
@@ -117,13 +125,10 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
         <Text alignSelf="center" mb={3}>
           Or
         </Text>
-      </ModalBody>
-
-      <ModalFooter paddingTop={0}>
         <Button onClick={onChangeModalType} flex={1}>
           Register
         </Button>
-      </ModalFooter>
+      </ModalBody>
     </>
   )
 }
@@ -131,15 +136,27 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
 const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
   const [userData, setUserData] = useState<User>()
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(undefined)
+  const [nameError, setNameError] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
-  const onRegister = () => {
+  const onRegister = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (
+      nameError.length > 0 ||
+      emailError.length > 0 ||
+      passwordError.length > 0 ||
+      !isPasswordCorrect
+    ) {
+      return
+    }
     localStorage.setItem(userData.email, JSON.stringify(userData))
     localStorage.setItem('user', JSON.stringify(userData))
     onSuccess()
   }
 
   const comparePasswords = (passwordSecondary: string) => {
-    if (userData.password !== passwordSecondary) {
+    if (userData?.password !== passwordSecondary) {
       setIsPasswordCorrect(false)
     } else {
       setIsPasswordCorrect(true)
@@ -148,44 +165,103 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
 
   return (
     <>
-      <ModalBody>
-        <form>
-          <Input
-            type="text"
-            placeholder="name"
-            required
-            autoFocus
-            onChange={event => setUserData({ ...userData, name: event.target.value })}
-            mb={3}
-          />
-          <Input
-            type="email"
-            placeholder="email"
-            required
-            onChange={event => setUserData({ ...userData, email: event.target.value })}
-            mb={3}
-          />
-          <Input
-            type="password"
-            placeholder="password"
-            required
-            onChange={event => setUserData({ ...userData, password: event.target.value })}
-            mb={3}
-          />
-          <Input
-            type="password"
-            placeholder="repeat password"
-            required
-            onChange={event => comparePasswords(event.target.value)}
-          />
-          <Text fontSize="xs" lineHeight="xs" mt={3} height={6}>
+      <ModalBody paddingBottom={6}>
+        <form onSubmit={onRegister}>
+          <label>
+            Name
+            <Input
+              mt={1}
+              type="text"
+              placeholder="name"
+              mb={1}
+              required
+              autoFocus
+              isInvalid={nameError.length > 0}
+              onChange={event => {
+                setUserData({ ...userData, name: event.target.value })
+                setNameError('')
+              }}
+              onBlur={event => {
+                if (event.target.value.trim().length === 0) {
+                  setNameError('Please enter your name')
+                }
+              }}
+            />
+          </label>
+          <Text mb={2} fontSize="xs" lineHeight="xs" height={6} color="errorText">
+            {nameError}
+          </Text>
+          <label>
+            Email
+            <Input
+              mt={1}
+              type="email"
+              placeholder="email"
+              required
+              isInvalid={emailError.length > 0}
+              onChange={event => {
+                setUserData({ ...userData, email: event.target.value })
+                setEmailError('')
+              }}
+              onBlur={event => {
+                if (event.target.value.trim().length === 0) {
+                  setEmailError('Please enter your email')
+                  return
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+                if (emailRegex.test(event.target.value) === false) {
+                  setEmailError('Please enter a valid email')
+                }
+              }}
+              mb={1}
+            />
+          </label>
+          <Text mb={2} fontSize="xs" lineHeight="xs" height={6} color="errorText">
+            {emailError}
+          </Text>
+          <label>
+            Password
+            <Input
+              mt={1}
+              type="password"
+              placeholder="password"
+              required
+              isInvalid={passwordError.length > 0}
+              onChange={event => {
+                setUserData({ ...userData, password: event.target.value })
+                setPasswordError('')
+              }}
+              onBlur={event => {
+                if (event.target.value.trim().length === 0) {
+                  setPasswordError('Please enter your password')
+                }
+              }}
+              mb={1}
+            />
+          </label>
+          <Text mb={2} fontSize="xs" lineHeight="xs" height={6} color="errorText">
+            {passwordError}
+          </Text>
+          <label>
+            Repeat password
+            <Input
+              mt={1}
+              type="password"
+              placeholder="repeat password"
+              required
+              isInvalid={isPasswordCorrect === false}
+              onBlur={event => comparePasswords(event.target.value)}
+              mb={1}
+            />
+          </label>
+          <Text fontSize="xs" lineHeight="xs" height={6} color="errorText">
             {isPasswordCorrect === false && 'Make sure your passwords are the same'}
           </Text>
-          <Button w="100%" type="submit" onClick={onRegister} mt={4} mb={3}>
+          <Button w="100%" type="submit" mt={4} mb={3}>
             Register
           </Button>
         </form>
-        <Button w="100%" onClick={onChangeModalType}>
+        <Button w="100%" variant="transparent" onClick={onChangeModalType}>
           Go to login
         </Button>
       </ModalBody>
