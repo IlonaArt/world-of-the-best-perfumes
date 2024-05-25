@@ -170,6 +170,7 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
     const email = userData.email
     if (!dataUsers) {
       localStorage.setItem('users', JSON.stringify([{ [email]: userData }]))
+      localStorage.setItem('loggedIn', userData.name)
       onSuccess()
       return
     }
@@ -183,6 +184,7 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
 
     data.push({ email: userData })
     localStorage.setItem('users', JSON.stringify(data))
+    localStorage.setItem('loggedIn', userData.name)
     onSuccess()
   }
 

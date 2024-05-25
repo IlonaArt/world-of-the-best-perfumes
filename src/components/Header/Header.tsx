@@ -3,7 +3,8 @@ import LogoIcon from '../../public/logo.svg'
 import Login from './Login'
 import Cart from './Cart'
 import Wishlist from './Wishlist'
-import { Box, Flex, Text } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
+import UserPopover from './UserPopover'
 
 const Header = () => {
   const [userName, setUserName] = useState<string>()
@@ -32,13 +33,7 @@ const Header = () => {
         <LogoIcon />
       </Box>
       <Flex alignItems="center" gap={{ base: '14px', md: '40px' }}>
-        {userName ? (
-          <Text fontSize="lg" lineHeight="lg" color="white">
-            Hi, {userName}!
-          </Text>
-        ) : (
-          <Login />
-        )}
+        {userName ? <UserPopover userName={userName} /> : <Login />}
         <Cart />
         <Wishlist />
       </Flex>
