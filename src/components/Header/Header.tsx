@@ -6,12 +6,12 @@ import Wishlist from './Wishlist'
 import { Box, Flex, Text } from '@chakra-ui/react'
 
 const Header = () => {
-  const [user, setUser] = useState<{ name: string }>()
+  const [userName, setUserName] = useState<string>()
 
   useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem('user')
+    const userFromLocalStorage = localStorage.getItem('loggedIn')
     if (userFromLocalStorage) {
-      setUser(JSON.parse(userFromLocalStorage))
+      setUserName(userFromLocalStorage)
     }
   }, [])
 
@@ -32,9 +32,9 @@ const Header = () => {
         <LogoIcon />
       </Box>
       <Flex alignItems="center" gap={{ base: '14px', md: '40px' }}>
-        {user ? (
+        {userName ? (
           <Text fontSize="lg" lineHeight="lg" color="white">
-            Hi, {user.name}!
+            Hi, {userName}!
           </Text>
         ) : (
           <Login />

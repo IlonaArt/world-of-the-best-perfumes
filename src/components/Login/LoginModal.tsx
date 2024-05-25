@@ -7,7 +7,6 @@ import {
   ModalBody,
   Input,
   Text,
-  ModalFooter,
   Button,
 } from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
@@ -45,6 +44,8 @@ const getLoginErrorText = (errorType: LoginErrorType) => {
   }
 }
 
+type Users = { [email: string]: User }[]
+
 const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
   const [loginErrorType, setLoginErrorType] = useState<LoginErrorType>(undefined)
 
@@ -65,19 +66,32 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
       return
     }
 
-    const userData = localStorage.getItem(email)
+    const userData = localStorage.getItem('users')
+    if (!userData) {
+      setLoginErrorType('incorrectData')
+      return
+    }
+
     if (!userData) {
       setLoginErrorType('incorrectData')
       return
     }
 
     try {
-      const user = JSON.parse(userData) as User
+      const users = JSON.parse(userData) as Users
+      const user = users.find(user => user[email])?.[email]
+
+      if (!user) {
+        setLoginErrorType('incorrectData')
+        return
+      }
+
       if (user.password !== password) {
         setLoginErrorType('incorrectData')
         return
       }
-      localStorage.setItem('user', JSON.stringify(user))
+
+      localStorage.setItem('loggedIn', user.name)
       onSuccess()
     } catch (error) {
       setLoginErrorType('sww')
@@ -139,6 +153,7 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
   const [nameError, setNameError] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [submitError, setSubmitError] = useState('')
 
   const onRegister = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -150,8 +165,24 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
     ) {
       return
     }
-    localStorage.setItem(userData.email, JSON.stringify(userData))
-    localStorage.setItem('user', JSON.stringify(userData))
+
+    const dataUsers = localStorage.getItem('users')
+    const email = userData.email
+    if (!dataUsers) {
+      localStorage.setItem('users', JSON.stringify([{ [email]: userData }]))
+      onSuccess()
+      return
+    }
+
+    const data = JSON.parse(dataUsers) as Users
+    const isUserExists = data.some(user => Boolean(user[email]))
+    if (isUserExists) {
+      setSubmitError('User with this email already exists, please log in')
+      return
+    }
+
+    data.push({ email: userData })
+    localStorage.setItem('users', JSON.stringify(data))
     onSuccess()
   }
 
@@ -257,9 +288,12 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
           <Text fontSize="xs" lineHeight="xs" height={6} color="errorText">
             {isPasswordCorrect === false && 'Make sure your passwords are the same'}
           </Text>
-          <Button w="100%" type="submit" mt={4} mb={3}>
+          <Button w="100%" type="submit" mt={4}>
             Register
           </Button>
+          <Text mb={2} fontSize="xs" lineHeight="xs" height={6} color="errorText">
+            {submitError}
+          </Text>
         </form>
         <Button w="100%" variant="transparent" onClick={onChangeModalType}>
           Go to login
