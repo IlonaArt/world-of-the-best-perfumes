@@ -46,6 +46,10 @@ const getLoginErrorText = (errorType: LoginErrorType) => {
 
 type Users = { [email: string]: User }[]
 
+const isPasswordString = (password: string | number): password is string => {
+  return typeof password === 'string'
+}
+
 const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
   const [loginErrorType, setLoginErrorType] = useState<LoginErrorType>(undefined)
 
@@ -55,13 +59,14 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
     const formData = new FormData(event.currentTarget)
 
     const email = formData.get('email') as string
+
     if (!email) {
       setLoginErrorType('emailEmpty')
       return
     }
 
-    const password = formData.get('password') as string
-    if (!password) {
+    const password = formData.get('password')
+    if (!isPasswordString) {
       setLoginErrorType('passwordEmpty')
       return
     }
@@ -78,7 +83,7 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
     }
 
     try {
-      const users = JSON.parse(userData) as Users
+      const users: Users = JSON.parse(userData)
       const user = users.find(user => user[email])?.[email]
 
       if (!user) {

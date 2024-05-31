@@ -29,7 +29,9 @@ const UserPopover = ({ userName }: UserPopoverProps) => {
         </Text>
       </PopoverTrigger>
       <PopoverContent>
-        <Button onClick={logout}>Logout</Button>
+        <Button size="xs" onClick={logout}>
+          Logout
+        </Button>
       </PopoverContent>
     </Popover>
   )
