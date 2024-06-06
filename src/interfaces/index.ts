@@ -14,7 +14,7 @@ export interface PerfumeList {
   [id: string]: Perfume
 }
 
-export type Page = 'about' | 'catalogue'
+export type Page = 'about' | 'catalogue' | 'wishlist'
 
 export const SortTypes = ['brand-asc', 'brand-desc', 'price-asc', 'price-desc'] as const
 

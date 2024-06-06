@@ -3,6 +3,16 @@ import PrevIcon from '../public/prev-icon.svg'
 import NextIcon from '../public/next-icon.svg'
 import { colors } from '../theme/foundations/colors'
 
+// write test for this component
+// we need to mock all the props that are passed to the component
+// we need to create tests for several cases:
+// - when we are on the first page
+// - when we are on the last page
+// - when we are on the middle page
+// it means that when we create a test we pass different props to the component
+// and we check if the component behaves as expected
+// I highly recommend to use ChatGPT by passing this component to it and ask to write tests for it
+
 interface PaginationProps {
   pages: number
   currentPage: number

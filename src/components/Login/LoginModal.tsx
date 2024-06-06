@@ -10,6 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
+import { Perfume } from '../../interfaces'
 
 interface LoginModalProps {
   onClose: () => void
@@ -22,10 +23,17 @@ interface ModalContentProps {
 
 type ModalType = 'register' | 'login'
 
+interface Wishlist {
+  isSelected: boolean
+  name: string
+  perfumes: Partial<Perfume>[]
+}
+
 interface User {
   name: string
   password: string
   email: string
+  wishlists: Wishlist[]
 }
 
 type LoginErrorType = 'emailEmpty' | 'passwordEmpty' | 'incorrectData' | 'sww'
@@ -44,7 +52,7 @@ const getLoginErrorText = (errorType: LoginErrorType) => {
   }
 }
 
-type Users = { [email: string]: User }[]
+export type Users = { [email: string]: User }[]
 
 const isPasswordString = (password: string | number): password is string => {
   return typeof password === 'string'
@@ -96,7 +104,10 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
         return
       }
 
-      localStorage.setItem('loggedIn', user.name)
+      localStorage.setItem(
+        'loggedIn',
+        JSON.stringify({ name: user.name, email: user.email }),
+      )
       onSuccess()
     } catch (error) {
       setLoginErrorType('sww')
@@ -172,24 +183,17 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
     }
 
     const dataUsers = localStorage.getItem('users')
+    const data: Users = dataUsers ? JSON.parse(dataUsers) : []
     const email = userData.email
-    if (!dataUsers) {
-      localStorage.setItem('users', JSON.stringify([{ [email]: userData }]))
-      localStorage.setItem('loggedIn', userData.name)
-      onSuccess()
-      return
-    }
-
-    const data = JSON.parse(dataUsers) as Users
     const isUserExists = data.some(user => Boolean(user[email]))
     if (isUserExists) {
       setSubmitError('User with this email already exists, please log in')
       return
     }
 
-    data.push({ email: userData })
+    data.push({ [email]: { ...userData, wishlists: [] } })
     localStorage.setItem('users', JSON.stringify(data))
-    localStorage.setItem('loggedIn', userData.name)
+    localStorage.setItem('loggedIn', JSON.stringify({ name: userData.name, email }))
     onSuccess()
   }
 

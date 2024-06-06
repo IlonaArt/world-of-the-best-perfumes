@@ -5,6 +5,7 @@ import HeartIcon from '../../../public/heart-icon.svg'
 import { useState } from 'react'
 import styles from './Card.module.css'
 import CardPrice from './CardPrice'
+import { Users } from '../../Login/LoginModal'
 
 interface CardProps {
   photo: string
@@ -15,8 +16,62 @@ interface CardProps {
   volume: Array<number>
 }
 
+// by clicking on the heart we should change the flag from false to true and back
+// this flag should be in the data
+
 const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
-  const [isFavorite, setIsFavorite] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(() => {
+    const currentUser = localStorage.getItem('loggedIn')
+    if (!currentUser) return false
+    const userEmail = JSON.parse(currentUser).email
+    const dataUsers: Users = JSON.parse(localStorage.getItem('users'))
+
+    const userIndex = dataUsers.findIndex(user => user[userEmail])
+    const user = dataUsers[userIndex]
+    const userData = user[userEmail]
+    return userData.wishlists.some(wishlist =>
+      wishlist.perfumes.some(perfume => perfume.title === title),
+    )
+  })
+
+  const toggleFavorite = () => {
+    const currentUser = localStorage.getItem('loggedIn')
+    if (!currentUser) return // TODO: open to login modal
+
+    const userEmail = JSON.parse(currentUser).email
+    const dataUsers: Users = JSON.parse(localStorage.getItem('users'))
+
+    const userIndex = dataUsers.findIndex(user => user[userEmail])
+    const user = dataUsers[userIndex]
+    const userData = user[userEmail]
+
+    const wishlistIndex = userData.wishlists.findIndex(wishlist => wishlist.isSelected)
+    const wishlist = userData.wishlists[wishlistIndex] ?? {
+      isSelected: true,
+      name: 'Default',
+      perfumes: [],
+    }
+
+    const isPerfumeInWishlist = userData.wishlists.some(wishlist =>
+      wishlist.perfumes.some(perfume => perfume.title === title),
+    )
+    if (isPerfumeInWishlist) {
+      wishlist.perfumes = wishlist.perfumes.filter(perfume => perfume.title !== title)
+    } else {
+      wishlist.perfumes.push({
+        photo,
+        title,
+        brand,
+        price,
+        discount,
+        volume,
+      })
+    }
+    userData.wishlists[wishlistIndex] = wishlist
+    dataUsers[userIndex][userEmail] = userData
+    localStorage.setItem('users', JSON.stringify(dataUsers))
+    setIsFavorite((prevIsFavorite: boolean) => !prevIsFavorite)
+  }
 
   return (
     <GridItem
@@ -90,8 +145,12 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
         top={4}
         right="10px"
         px={3}
+        onClick={toggleFavorite}
       >
-        <HeartIcon className={styles.heartIcon} />
+        <HeartIcon
+          className={styles.heartIcon}
+          fill={isFavorite ? 'var(--chakra-colors-attention)' : 'transparent'}
+        />
       </Button>
       <Link
         as={NextLink}

@@ -12,7 +12,7 @@ const Header = () => {
   useEffect(() => {
     const userFromLocalStorage = localStorage.getItem('loggedIn')
     if (userFromLocalStorage) {
-      setUserName(userFromLocalStorage)
+      setUserName(JSON.parse(userFromLocalStorage).name)
     }
   }, [])
 

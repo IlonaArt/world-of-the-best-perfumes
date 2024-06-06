@@ -4,7 +4,7 @@ import { Flex, Text } from '@chakra-ui/react'
 
 const Wishlist = () => {
   return (
-    <Flex as="a" href="#" alignItems="center">
+    <Flex as="a" href="/wishlist" alignItems="center">
       <Text
         as="span"
         display={{ base: 'none', md: 'flex' }}
