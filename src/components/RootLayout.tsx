@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react'
 import Head from 'next/head'
-import { ChakraProvider, useDisclosure } from '@chakra-ui/react'
+import { ChakraProvider } from '@chakra-ui/react'
 import theme from '../theme'
 import { Box } from '@chakra-ui/react'
 import Header from './Header/Header'

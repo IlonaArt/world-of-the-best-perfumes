@@ -68,7 +68,8 @@ const WishlistPage = () => {
               <Flex>
                 {wishlists[currentWishlistIndex].perfumes.map(perfume => (
                   <Card
-                    key={perfume.title}
+                    key={perfume.id}
+                    id={perfume.id}
                     photo={perfume.photo}
                     title={perfume.title}
                     brand={perfume.brand}

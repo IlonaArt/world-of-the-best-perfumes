@@ -48,7 +48,8 @@ const PerfumeList = ({ data, error, loading }: PerfumeListProps) => {
       >
         {data.map(item => (
           <Card
-            key={item.title}
+            key={item.id}
+            id={item.id}
             photo={item.photo}
             title={item.title}
             brand={item.brand}

@@ -8,6 +8,7 @@ import CardPrice from './CardPrice'
 import { Users } from '../../Login/LoginModal'
 
 interface CardProps {
+  id: number
   photo: string
   title: string
   brand: string
@@ -16,10 +17,7 @@ interface CardProps {
   volume: Array<number>
 }
 
-// by clicking on the heart we should change the flag from false to true and back
-// this flag should be in the data
-
-const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
+const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) => {
   const [isFavorite, setIsFavorite] = useState(() => {
     const currentUser = localStorage.getItem('loggedIn')
     if (!currentUser) return false
@@ -154,7 +152,7 @@ const Card = ({ photo, title, brand, price, discount, volume }: CardProps) => {
       </Button>
       <Link
         as={NextLink}
-        href=""
+        href={`/perfume/${id}`}
         _before={{
           position: 'absolute',
           content: '""',
