@@ -13,23 +13,33 @@ import laPanthere from '../../../public/images/la-panthere.jpg'
 import lira from '../../../public/images/lira.jpg'
 import angelDemon from '../../../public/images/angel-ou-demon.jpg'
 import alien from '../../../public/images/alien.jpg'
+import ambreOrientSecret from '../../../public/images/ambre-d-orient.jpg'
+import bouquetIdeale from '../../../public/images/bouquet-ideale.jpg'
+import eauDeSoleilBlanc from '../../../public/images/eau-de-soleil-blanc.jpg'
+import philosykos from '../../../public/images/philosykos.jpg'
+import rougeSmoking from '../../../public/images/rouge-smoking.jpg'
 import { Box } from '@chakra-ui/react'
 
 const IMAGES_SOURCES = {
-  angel: angel,
-  floraiku: floraiku,
-  ambreSultan: ambreSultan,
-  khaltatNight: khaltatNight,
-  frustration: frustration,
-  ninShar: ninShar,
-  roma: roma,
-  eauCapitale: eauCapitale,
-  muscRavageur: muscRavageur,
-  lostCherry: lostCherry,
-  laPanthere: laPanthere,
-  lira: lira,
-  angelDemon: angelDemon,
-  alien: alien,
+  angel,
+  floraiku,
+  ambreSultan,
+  khaltatNight,
+  frustration,
+  ninShar,
+  roma,
+  eauCapitale,
+  muscRavageur,
+  lostCherry,
+  laPanthere,
+  lira,
+  angelDemon,
+  alien,
+  ambreOrientSecret,
+  bouquetIdeale,
+  eauDeSoleilBlanc,
+  philosykos,
+  rougeSmoking,
 }
 
 const PerfumeImage = ({ photo, title }: { photo: string; title: string }) => {

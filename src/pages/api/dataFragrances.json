@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "brand": "Floraïku",
     "title": "One Umbrella for Two EDP",
     "photo": "floraiku",
@@ -11,6 +12,7 @@
     "family": ["aromatic", "fruity", "gourmand"]
   },
   {
+    "id": 2,
     "brand": "Serge Lutens",
     "title": "Ambre Sultan EDP",
     "photo": "ambreSultan",
@@ -22,6 +24,7 @@
     "family": ["oriental"]
   },
   {
+    "id": 3,
     "brand": "Attar Collection",
     "title": "Khaltat Night EDP",
     "photo": "khaltatNight",
@@ -33,6 +36,7 @@
     "family": ["oriental", "sweet", "gourmand"]
   },
   {
+    "id": 4,
     "brand": "Mugler",
     "title": "Angel EDP",
     "photo": "angel",
@@ -44,6 +48,7 @@
     "family": ["oriental", "amber", "vanilla"]
   },
   {
+    "id": 5,
     "brand": "Etat Libre d'Orange",
     "title": "Frustration EDP",
     "photo": "frustration",
@@ -55,6 +60,7 @@
     "family": ["oriental", "amber", "woody"]
   },
   {
+    "id": 6,
     "brand": "Jul et Mad Paris",
     "title": "Nin-Shar EDP",
     "photo": "ninShar",
@@ -66,6 +72,7 @@
     "family": ["oriental", "rose", "woody"]
   },
   {
+    "id": 7,
     "brand": "Laura Biagiotti",
     "title": "Roma EDT",
     "photo": "roma",
@@ -77,6 +84,7 @@
     "family": ["oriental", "spicy"]
   },
   {
+    "id": 8,
     "brand": "Diptyque",
     "title": "Eau Capitale EDP",
     "photo": "eauCapitale",
@@ -88,6 +96,7 @@
     "family": ["chypre", "floral"]
   },
   {
+    "id": 9,
     "brand": "Frederic Malle",
     "title": "Musc Ravageur EDP",
     "photo": "muscRavageur",
@@ -99,6 +108,7 @@
     "family": ["oriental", "vanilla"]
   },
   {
+    "id": 10,
     "brand": "Tom Ford",
     "title": "Lost Cherry EDP",
     "photo": "lostCherry",
@@ -110,6 +120,7 @@
     "family": ["oriental", "fruity", "amber"]
   },
   {
+    "id": 11,
     "brand": "Cartier",
     "title": "La Panthère EDP",
     "photo": "laPanthere",
@@ -121,6 +132,7 @@
     "family": ["chypre", "floral"]
   },
   {
+    "id": 12,
     "brand": "Xerjoff",
     "title": "Lira EDP",
     "photo": "lira",
@@ -132,6 +144,7 @@
     "family": ["oriental", "gourmand"]
   },
   {
+    "id": 13,
     "brand": "Givenchy",
     "title": "Angel ou Demon EDP",
     "photo": "angelDemon",
@@ -143,6 +156,7 @@
     "family": ["oriental", "floral"]
   },
   {
+    "id": 14,
     "brand": "Mugler",
     "title": "Alien EDP",
     "photo": "alien",
@@ -152,5 +166,65 @@
     "volume": [15, 60, 100],
     "type": "women",
     "family": ["oriental", "floral"]
+  },
+  {
+    "id": 15,
+    "brand": "Eisenberg",
+    "title": "Ambre D'Orient Secret V EDP",
+    "photo": "ambreOrientSecret",
+    "price": [100, 120, 150],
+    "discount": [],
+    "description": "Top notes are Cinnamon, Rose, Pink Pepper, Bergamot and Jasmine; middle notes are Cedar, Cypriol Oil or Nagarmotha, Vetiver and Patchouli; base notes are Amber, Benzoin, Incense, Tonka Bean, Vanilla and Musk",
+    "volume": [30, 50, 100],
+    "type": "women",
+    "family": ["oriental", "amber", "spicy"]
+  },
+  {
+    "id": 16,
+    "brand": "Xerjoff",
+    "title": "Bouquet Ideale EDP",
+    "photo": "bouquetIdeale",
+    "price": [110, 270],
+    "discount": [90, 230],
+    "description": "Top notes are Cinnamon and Nutmeg; middle notes are Guaiac Wood, Sandalwood, Virginia Cedar and Papyrus; base notes are Vanille, Coumarin, Tobacco Blossom, French labdanum and Musk",
+    "volume": [30, 100],
+    "type": "women",
+    "family": ["oriental", "woody", "spicy"]
+  },
+  {
+    "id": 17,
+    "brand": "Tom Ford",
+    "title": "Eau de Soleil Blanc EDT",
+    "photo": "eauDeSoleilBlanc",
+    "price": [60, 100, 140],
+    "discount": [50, 90, 130],
+    "description": "Top notes are Bitter Orange, Neroli, Bergamot, Citron, Pistachio, Petitgrain, Cardamom, Pink Pepper and Caraway; middle notes are Tuberose, Tunisian Orange Blossom, Ylang-Ylang, Jasmine and Galbanum; base notes are Coconut, Vanilla, Tonka Bean, Amber and Benzoin.",
+    "volume": [10, 30, 50],
+    "type": "unisex",
+    "family": ["floral", "amber"]
+  },
+  {
+    "id": 18,
+    "brand": "Diptyque",
+    "title": "Philosykos EDP",
+    "photo": "philosykos",
+    "price": [165],
+    "discount": [130],
+    "description": "Top notes are Fig Leaf and Fig; middle notes are Green Notes and Coconut; base notes are Fig Tree, Woody Notes and Cedar.",
+    "volume": [75],
+    "type": "unisex",
+    "family": ["woody", "fresh"]
+  },
+  {
+    "id": 19,
+    "brand": "BDK Parfums",
+    "title": "Rouge Smoking EDP",
+    "photo": "rougeSmoking",
+    "price": [42, 190],
+    "discount": [35, 175],
+    "description": "Top notes are Cherry, Pink Pepper and Bergamot; middle notes are Black Vanilla Husk, Heliotrope and Orange Blossom; base notes are Tonka Bean, Cashmere Wood, White Musk, Ambroxan, Labdanum and Violet.",
+    "volume": [10, 100],
+    "type": "unisex",
+    "family": ["oriental", "fruity", "amber"]
   }
 ]
