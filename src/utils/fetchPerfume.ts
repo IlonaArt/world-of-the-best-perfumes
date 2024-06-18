@@ -1,7 +1,7 @@
-import { Perfume, SortType } from '../../interfaces'
-import { fetchData } from '../../utils/fetchData'
-import { ResponseWithPagination } from '../../utils/types'
-import { toUrlParams } from './lib/urlParams'
+import { Perfume, SortType } from '../interfaces'
+import { fetchData } from './fetchData'
+import { ResponseWithPagination } from './types'
+import { toUrlParams } from '../components/Catalogue/lib/urlParams'
 
 export interface Params {
   sort: SortType

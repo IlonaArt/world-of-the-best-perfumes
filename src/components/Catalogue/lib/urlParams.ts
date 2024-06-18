@@ -1,6 +1,6 @@
 import { SortType, isSortType } from '../../../interfaces'
 import { defaultParams } from '../constants'
-import { Params } from '../fetchPerfume'
+import { Params } from '../../../utils/fetchPerfume'
 
 export const parseStringToSortType = (value: string | undefined): SortType => {
   if (!value || !isSortType(value)) return

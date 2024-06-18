@@ -1,17 +1,13 @@
-import { Button, Flex, Input, Text } from '@chakra-ui/react'
-import PrevIcon from '../public/prev-icon.svg'
-import NextIcon from '../public/next-icon.svg'
+import { Button, Flex, Input, Image, Text } from '@chakra-ui/react'
+import PrevIcon from '../assets/prev-icon.svg'
+import NextIcon from '../assets/next-icon.svg'
 import { colors } from '../theme/foundations/colors'
 
-// write test for this component
-// we need to mock all the props that are passed to the component
-// we need to create tests for several cases:
-// - when we are on the first page
-// - when we are on the last page
-// - when we are on the middle page
-// it means that when we create a test we pass different props to the component
-// and we check if the component behaves as expected
-// I highly recommend to use ChatGPT by passing this component to it and ask to write tests for it
+// prevent a user to type dot
+// go to the implementation of the onChange
+// check if the event.currentTarget.value has dot
+// if so, remove it
+// and use the new value as a input value
 
 interface PaginationProps {
   pages: number
@@ -44,6 +40,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
   }
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // check is here
     let inputValue = Number(event.currentTarget.value)
     if (Number.isNaN(inputValue) || event.code !== 'Enter') return
     inputValue = Math.max(Math.min(inputValue, pages), 1)
@@ -52,7 +49,13 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
 
   return (
     <Flex gap={2} justifyContent={{ base: 'initial', md: 'center' }}>
-      <Button width="38px" px={3} onClick={goToFirstPage} isDisabled={isFirstPage}>
+      <Button
+        width="38px"
+        px={3}
+        onClick={goToFirstPage}
+        isDisabled={isFirstPage}
+        data-testId="first-page-button"
+      >
         1
       </Button>
       <Button
@@ -60,7 +63,8 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         onClick={goToPreviousPage}
         isDisabled={isFirstPage}
         flexShrink="0"
-        leftIcon={<PrevIcon width={14} />}
+        leftIcon={<PrevIcon />}
+        data-testId="prev-page-button"
       >
         <Text display={{ base: 'none', md: 'block' }}>Prev</Text>
       </Button>
@@ -69,7 +73,8 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         onClick={goToNextPage}
         isDisabled={isLastPage}
         flexShrink="0"
-        rightIcon={<NextIcon width={14} />}
+        rightIcon={<NextIcon />}
+        data-testId="next-page-button"
       >
         <Text display={{ base: 'none', md: 'block' }}>Next</Text>
       </Button>
@@ -81,6 +86,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         borderColor={colors.black}
         defaultValue={currentPage}
         onKeyDown={handleInputKeyDown}
+        data-testId="page-input"
       />
       <Button
         ml={{ base: 'auto', lg: 'initial' }}
@@ -88,6 +94,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         flexShrink="0"
         onClick={goToLastPage}
         isDisabled={isLastPage}
+        data-testId="last-page-button"
       >
         Last ({pages})
       </Button>

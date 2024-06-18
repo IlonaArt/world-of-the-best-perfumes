@@ -1,4 +1,4 @@
-import { Params } from './fetchPerfume'
+import { Params } from '../../utils/fetchPerfume'
 
 export const defaultParams: Params = {
   sort: 'brand-asc',
