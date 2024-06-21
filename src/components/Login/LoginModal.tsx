@@ -36,9 +36,9 @@ interface User {
   wishlists: Wishlist[]
 }
 
-type LoginErrorType = 'emailEmpty' | 'passwordEmpty' | 'incorrectData' | 'sww'
+type ErrorType = 'emailEmpty' | 'passwordEmpty' | 'incorrectData' | 'userExists' | 'sww'
 
-const getLoginErrorText = (errorType: LoginErrorType) => {
+const getErrorText = (errorType: ErrorType) => {
   switch (errorType) {
     case 'emailEmpty':
       return 'Please enter your email'
@@ -46,6 +46,8 @@ const getLoginErrorText = (errorType: LoginErrorType) => {
       return 'Please enter your password'
     case 'incorrectData':
       return 'Please check your email or password'
+    case 'userExists':
+      return 'User with this email already exists'
     case 'sww':
     default:
       return 'Something went wrong, please try again'
@@ -59,7 +61,7 @@ const isPasswordString = (password: string | number): password is string => {
 }
 
 const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
-  const [loginErrorType, setLoginErrorType] = useState<LoginErrorType>(undefined)
+  const [loginErrorType, setLoginErrorType] = useState<ErrorType>(undefined)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -79,39 +81,38 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
       return
     }
 
-    const userData = localStorage.getItem('users')
-    if (!userData) {
-      setLoginErrorType('incorrectData')
-      return
-    }
-
-    if (!userData) {
-      setLoginErrorType('incorrectData')
-      return
-    }
-
     try {
-      const users: Users = JSON.parse(userData)
-      const user = users.find(user => user[email])?.[email]
+      fetch('/api/signIn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then(response => {
+          if (!response.ok) {
+            setLoginErrorType('incorrectData')
+            return
+          }
 
-      if (!user) {
-        setLoginErrorType('incorrectData')
-        return
-      }
-
-      if (user.password !== password) {
-        setLoginErrorType('incorrectData')
-        return
-      }
-
-      localStorage.setItem(
-        'loggedIn',
-        JSON.stringify({ name: user.name, email: user.email }),
-      )
-      onSuccess()
+          return response.json()
+        })
+        .then(user => {
+          localStorage.setItem(
+            'loggedIn',
+            JSON.stringify({
+              name: user.name,
+              email: user.email,
+              wishlists: user.wishlists,
+            }),
+          )
+          onSuccess()
+        })
+        .catch(() => {
+          setLoginErrorType('sww')
+        })
     } catch (error) {
       setLoginErrorType('sww')
-      console.error('Error parsing JSON:', error)
     }
   }
 
@@ -146,7 +147,7 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
             />
           </label>
           <Text h={5} fontSize="xs" lineHeight="xs" mt={1} color="errorText">
-            {loginErrorType && getLoginErrorText(loginErrorType)}
+            {loginErrorType && getErrorText(loginErrorType)}
           </Text>
           <Button type="submit" justifyContent="center" w="100%" mb={3} mt={4}>
             Login
@@ -182,19 +183,29 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
       return
     }
 
-    const dataUsers = localStorage.getItem('users')
-    const data: Users = dataUsers ? JSON.parse(dataUsers) : []
-    const email = userData.email
-    const isUserExists = data.some(user => Boolean(user[email]))
-    if (isUserExists) {
-      setSubmitError('User with this email already exists, please log in')
-      return
-    }
-
-    data.push({ [email]: { ...userData, wishlists: [] } })
-    localStorage.setItem('users', JSON.stringify(data))
-    localStorage.setItem('loggedIn', JSON.stringify({ name: userData.name, email }))
-    onSuccess()
+    fetch('/api/signUp', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(userData),
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.error) {
+          const error = getErrorText(result.error)
+          setSubmitError(error)
+          return
+        }
+        localStorage.setItem(
+          'loggedIn',
+          JSON.stringify({ name: userData.name, email: userData.email, wishlists: [] }),
+        )
+        onSuccess()
+      })
+      .catch(error => {
+        setSubmitError(error)
+      })
   }
 
   const comparePasswords = (passwordSecondary: string) => {

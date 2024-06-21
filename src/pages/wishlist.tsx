@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Heading, Text } from '@chakra-ui/react'
 import RootLayout from '../components/RootLayout'
 import { useEffect, useState } from 'react'
-import { Users } from '../components/Login/LoginModal'
 import Card from '../components/Catalogue/PerfumeList/Card'
 
 // we need to add a flag to the data (true|false) to indicate if the product is in the wishlist
@@ -15,24 +14,41 @@ import Card from '../components/Catalogue/PerfumeList/Card'
 const WishlistPage = () => {
   const [wishlists, setWishlists] = useState([])
   const [currentWishlistIndex, setCurrentWishlistIndex] = useState(0)
+  const [perfumes, setPerfumes] = useState([])
   const isWishlistsEmpty = wishlists.length === 0
 
   useEffect(() => {
     setWishlists(() => {
       const currentUser = localStorage.getItem('loggedIn')
       if (!currentUser) return []
-      const userEmail = JSON.parse(currentUser).email
-      const dataUsers: Users = JSON.parse(localStorage.getItem('users'))
-      const user = dataUsers.find(user => user[userEmail])
-      if (!user) return []
-      const userData = user[userEmail]
-      const wishlistIndex = userData.wishlists.findIndex(wishlist => wishlist.isSelected)
+      const { wishlists } = JSON.parse(currentUser)
+      const wishlistIndex = wishlists.findIndex(wishlist => wishlist.isSelected)
       if (wishlistIndex >= 0) {
         setCurrentWishlistIndex(wishlistIndex)
       }
-      return userData.wishlists
+      return wishlists
     })
   }, [])
+
+  useEffect(() => {
+    const wishlist = wishlists[currentWishlistIndex]
+    if (!wishlist) return
+    fetch('/api/getPerfumesByIds', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ perfumes: wishlist.perfumes }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (!data) return
+        setPerfumes(data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }, [wishlists, currentWishlistIndex])
 
   return (
     <RootLayout page="wishlist" title="Wishlist">
@@ -66,7 +82,7 @@ const WishlistPage = () => {
                 <Button>Create new list</Button>
               </aside>
               <Flex>
-                {wishlists[currentWishlistIndex].perfumes.map(perfume => (
+                {perfumes.map(perfume => (
                   <Card
                     key={perfume.id}
                     id={perfume.id}

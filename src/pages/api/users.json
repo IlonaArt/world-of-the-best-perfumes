@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Vi",
+    "email": "vivivi@gmail.com",
+    "password": "666",
+    "wishlists": [
+      {
+        "name": "Default",
+        "isSelected": true,
+        "perfumes": [
+          3,
+          11
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ilona",
+    "email": "zhopa@gmail.com",
+    "password": "123",
+    "wishlists": []
+  }
+]

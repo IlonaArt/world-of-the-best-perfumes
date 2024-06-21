@@ -5,7 +5,6 @@ import HeartIcon from '../../../public/heart-icon.svg'
 import { useState } from 'react'
 import styles from './Card.module.css'
 import CardPrice from './CardPrice'
-import { Users } from '../../Login/LoginModal'
 
 interface CardProps {
   id: number
@@ -21,14 +20,9 @@ const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) =
   const [isFavorite, setIsFavorite] = useState(() => {
     const currentUser = localStorage.getItem('loggedIn')
     if (!currentUser) return false
-    const userEmail = JSON.parse(currentUser).email
-    const dataUsers: Users = JSON.parse(localStorage.getItem('users'))
-
-    const userIndex = dataUsers.findIndex(user => user[userEmail])
-    const user = dataUsers[userIndex]
-    const userData = user[userEmail]
-    return userData.wishlists.some(wishlist =>
-      wishlist.perfumes.some(perfume => perfume.title === title),
+    const userWishlists = JSON.parse(currentUser).wishlists
+    return userWishlists.some(wishlist =>
+      wishlist.perfumes.some(perfumeId => perfumeId === id),
     )
   })
 
@@ -36,39 +30,40 @@ const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) =
     const currentUser = localStorage.getItem('loggedIn')
     if (!currentUser) return // TODO: open to login modal
 
-    const userEmail = JSON.parse(currentUser).email
-    const dataUsers: Users = JSON.parse(localStorage.getItem('users'))
-
-    const userIndex = dataUsers.findIndex(user => user[userEmail])
-    const user = dataUsers[userIndex]
-    const userData = user[userEmail]
-
-    const wishlistIndex = userData.wishlists.findIndex(wishlist => wishlist.isSelected)
-    const wishlist = userData.wishlists[wishlistIndex] ?? {
-      isSelected: true,
-      name: 'Default',
-      perfumes: [],
-    }
-
-    const isPerfumeInWishlist = userData.wishlists.some(wishlist =>
-      wishlist.perfumes.some(perfume => perfume.title === title),
-    )
-    if (isPerfumeInWishlist) {
-      wishlist.perfumes = wishlist.perfumes.filter(perfume => perfume.title !== title)
-    } else {
-      wishlist.perfumes.push({
-        photo,
-        title,
-        brand,
-        price,
-        discount,
-        volume,
+    fetch('/api/updateFavorites', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userEmail: JSON.parse(currentUser).email,
+        wishlistName: 'Default',
+        productId: id,
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          return
+        }
+        return response.json()
       })
-    }
-    userData.wishlists[wishlistIndex] = wishlist
-    dataUsers[userIndex][userEmail] = userData
-    localStorage.setItem('users', JSON.stringify(dataUsers))
-    setIsFavorite((prevIsFavorite: boolean) => !prevIsFavorite)
+      .then(data => {
+        if (!data) return
+
+        const { wishlists } = data
+        localStorage.setItem(
+          'loggedIn',
+          JSON.stringify({
+            name: JSON.parse(currentUser).name,
+            email: JSON.parse(currentUser).email,
+            wishlists,
+          }),
+        )
+        setIsFavorite((prevIsFavorite: boolean) => !prevIsFavorite)
+      })
+      .catch(() => {
+        console.error('Unable to update favorites')
+      })
   }
 
   return (
