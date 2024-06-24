@@ -1,6 +1,5 @@
 import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
-// import '@testing-library/jest-dom/extend-expect'
 import Pagination from '../components/Pagination'
 
 const onChangeMock = jest.fn()
@@ -72,7 +71,7 @@ describe('Pagination Component', () => {
     fireEvent.change(input, { target: { value: '3' } })
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' })
     expect(onChangeMock).toHaveBeenCalledWith(3)
-    expect(input).toHaveValue('3')
+    expect(input).toHaveValue(3)
   })
 
   test.skip('does not navigate when input value is invalid', () => {
@@ -80,9 +79,9 @@ describe('Pagination Component', () => {
 
     const input = screen.getByTestId('page-input')
     fireEvent.change(input, { target: { value: '1.' } })
-    expect(input).toHaveValue('1')
+    expect(input).toHaveValue(1)
     fireEvent.keyDown(input, { key: 'Enter', code: 'Enter' })
     expect(onChangeMock).toHaveBeenCalledWith(1)
-    expect(input).toHaveValue('1')
+    expect(input).toHaveValue(1)
   })
 })

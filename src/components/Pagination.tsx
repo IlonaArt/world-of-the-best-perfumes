@@ -1,13 +1,7 @@
-import { Button, Flex, Input, Image, Text } from '@chakra-ui/react'
+import { Button, Flex, Input, Text } from '@chakra-ui/react'
 import PrevIcon from '../assets/prev-icon.svg'
 import NextIcon from '../assets/next-icon.svg'
 import { colors } from '../theme/foundations/colors'
-
-// prevent a user to type dot
-// go to the implementation of the onChange
-// check if the event.currentTarget.value has dot
-// if so, remove it
-// and use the new value as a input value
 
 interface PaginationProps {
   pages: number
@@ -40,8 +34,8 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
   }
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    // check is here
-    let inputValue = Number(event.currentTarget.value)
+    const inputValueWithoutDot = event.currentTarget.value.replace('.', '')
+    let inputValue = Number(inputValueWithoutDot)
     if (Number.isNaN(inputValue) || event.code !== 'Enter') return
     inputValue = Math.max(Math.min(inputValue, pages), 1)
     onChange(inputValue)
@@ -54,7 +48,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         px={3}
         onClick={goToFirstPage}
         isDisabled={isFirstPage}
-        data-testId="first-page-button"
+        data-testid="first-page-button"
       >
         1
       </Button>
@@ -64,7 +58,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         isDisabled={isFirstPage}
         flexShrink="0"
         leftIcon={<PrevIcon />}
-        data-testId="prev-page-button"
+        data-testid="prev-page-button"
       >
         <Text display={{ base: 'none', md: 'block' }}>Prev</Text>
       </Button>
@@ -74,7 +68,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         isDisabled={isLastPage}
         flexShrink="0"
         rightIcon={<NextIcon />}
-        data-testId="next-page-button"
+        data-testid="next-page-button"
       >
         <Text display={{ base: 'none', md: 'block' }}>Next</Text>
       </Button>
@@ -86,7 +80,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         borderColor={colors.black}
         defaultValue={currentPage}
         onKeyDown={handleInputKeyDown}
-        data-testId="page-input"
+        data-testid="page-input"
       />
       <Button
         ml={{ base: 'auto', lg: 'initial' }}
@@ -94,7 +88,7 @@ const Pagination = ({ pages, currentPage, onChange }: PaginationProps) => {
         flexShrink="0"
         onClick={goToLastPage}
         isDisabled={isLastPage}
-        data-testId="last-page-button"
+        data-testid="last-page-button"
       >
         Last ({pages})
       </Button>
