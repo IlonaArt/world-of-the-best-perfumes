@@ -1,5 +1,5 @@
 import { SortType, isSortType } from '../../../interfaces'
-import { defaultParams } from '../constants'
+import { DEFAULT_PARAMS } from '../constants'
 import { Params } from '../../../utils/fetchPerfume'
 
 export const parseStringToSortType = (value: string | undefined): SortType => {
@@ -20,7 +20,7 @@ export const parseStringToNumber = (
 
 export const parseUrlParams = (urlParams: URLSearchParams): Params => {
   const search = urlParams.get('search')
-  const sort = parseStringToSortType(urlParams.get('sort')) ?? defaultParams.sort
+  const sort = parseStringToSortType(urlParams.get('sort')) ?? DEFAULT_PARAMS.sort
   const brand = urlParams.get('brand')
   const minPrice = parseStringToNumber(urlParams.get('minPrice'), [0, Infinity])
   const maxPrice = parseStringToNumber(urlParams.get('maxPrice'), [0, Infinity])
@@ -28,10 +28,10 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
   const minVolume = parseStringToNumber(urlParams.get('minVolume'), [0, Infinity])
   const maxVolume = parseStringToNumber(urlParams.get('maxVolume'), [0, Infinity])
   const page =
-    parseStringToNumber(urlParams.get('page'), [1, Infinity]) ?? defaultParams.page
+    parseStringToNumber(urlParams.get('page'), [1, Infinity]) ?? DEFAULT_PARAMS.page
   const pageLimit =
     parseStringToNumber(urlParams.get('pageLimit'), [1, Infinity]) ??
-    defaultParams.pageLimit
+    DEFAULT_PARAMS.pageLimit
   return {
     sort,
     filters: { search, brand, minPrice, maxPrice, volume, minVolume, maxVolume },
@@ -41,7 +41,7 @@ export const parseUrlParams = (urlParams: URLSearchParams): Params => {
 }
 
 export const getDefaultUrlParams = (): Params => {
-  if (typeof window === 'undefined') return defaultParams
+  if (typeof window === 'undefined') return DEFAULT_PARAMS
   const urlParams = new URLSearchParams(window.location.search)
   return parseUrlParams(urlParams)
 }

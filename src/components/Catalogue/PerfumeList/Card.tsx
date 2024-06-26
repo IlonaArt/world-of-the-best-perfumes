@@ -25,6 +25,8 @@ const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) =
       wishlist.perfumes.some(perfumeId => perfumeId === id),
     )
   })
+  // move this function to a separate file
+  // create a separate functionality for the local storage
 
   const toggleFavorite = () => {
     const currentUser = localStorage.getItem('loggedIn')

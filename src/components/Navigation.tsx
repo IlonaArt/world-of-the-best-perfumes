@@ -6,6 +6,10 @@ interface NavigationProps {
   page: Page
 }
 
+// test cases:
+// - when you click on any link, the url changes
+// - when you click on any link, the visual changes (bold/not bold)
+
 const Navigation = ({ page }: NavigationProps) => {
   return (
     <Flex
