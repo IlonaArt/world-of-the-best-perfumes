@@ -1,1 +1,31 @@
-[{"name":"Vi","email":"vivivi@gmail.com","password":"666","wishlists":[{"name":"Default","isSelected":true,"perfumes":[11,8]}]},{"name":"Ilona","email":"zhopa@gmail.com","password":"123","wishlists":[]}]
+[
+  {
+    "name": "Vi",
+    "email": "vivivi@gmail.com",
+    "password": "666",
+    "wishlists": [
+      {
+        "name": "Default",
+        "isSelected": false,
+        "perfumes": [
+          3,
+          11,
+          18
+        ]
+      },
+      {
+        "name": "New list",
+        "isSelected": true,
+        "perfumes": [
+          8
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Ilona",
+    "email": "zhopa@gmail.com",
+    "password": "123",
+    "wishlists": []
+  }
+]

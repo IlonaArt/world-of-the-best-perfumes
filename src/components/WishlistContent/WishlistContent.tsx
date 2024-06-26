@@ -1,26 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useUser } from '../../contexts/user-context/UserContext'
 import { Flex, Button, Text } from '@chakra-ui/react'
 import Card from '../Catalogue/PerfumeList/Card'
 
 const WishlistContent = () => {
-  const { user } = useUser()
-  const [wishlists, setWishlists] = useState([])
+  const { user, updateUser } = useUser()
+  const wishlists = user?.wishlists ?? []
   const [currentWishlistIndex, setCurrentWishlistIndex] = useState(0)
   const [perfumes, setPerfumes] = useState([])
   const isWishlistsEmpty = wishlists.length === 0
 
   useEffect(() => {
-    setWishlists(() => {
-      if (!user) return []
-      const { wishlists } = user
-      const wishlistIndex = wishlists.findIndex(wishlist => wishlist.isSelected)
-      if (wishlistIndex >= 0) {
-        setCurrentWishlistIndex(wishlistIndex)
-      }
-      return wishlists
-    })
-  }, [user])
+    const wishlistIndex = wishlists.findIndex(wishlist => wishlist.isSelected)
+    setCurrentWishlistIndex(wishlistIndex > -1 ? wishlistIndex : 0)
+  }, [wishlists])
 
   useEffect(() => {
     const wishlist = wishlists[currentWishlistIndex]
@@ -42,6 +35,22 @@ const WishlistContent = () => {
       })
   }, [wishlists, currentWishlistIndex])
 
+  const createWishlist = useCallback(() => {
+    if (!user) return // TODO: open login modal
+    fetch('/api/createWishlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ userEmail: user.email, wishlistName: 'New list' }),
+    })
+      .then(response => response.json())
+      .then(({ wishlists }) => updateUser({ ...user, wishlists }))
+      .catch(error => {
+        console.error(error)
+      })
+  }, [user])
+
   if (isWishlistsEmpty) {
     return (
       <Flex flexDirection="column" alignItems="center">
@@ -60,7 +69,7 @@ const WishlistContent = () => {
             <li key={wishlist.name}>{wishlist.name}</li>
           ))}
         </ul>
-        <Button>Create new list</Button>
+        <Button onClick={createWishlist}>Create new list</Button>
       </aside>
       <Flex>
         {perfumes.map(perfume => (

@@ -41,7 +41,6 @@ const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) =
       },
       body: JSON.stringify({
         userEmail: user.email,
-        wishlistName: 'Default',
         productId: id,
       }),
     })
