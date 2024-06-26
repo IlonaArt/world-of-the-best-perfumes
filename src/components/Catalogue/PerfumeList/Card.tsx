@@ -2,9 +2,10 @@ import PerfumeImage from './PerfumeImage'
 import NextLink from 'next/link'
 import { Button, Flex, GridItem, Heading, Link, Text } from '@chakra-ui/react'
 import HeartIcon from '../../../public/heart-icon.svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './Card.module.css'
 import CardPrice from './CardPrice'
+import { useUser } from '../../../contexts/user-context/UserContext'
 
 interface CardProps {
   id: number
@@ -17,20 +18,21 @@ interface CardProps {
 }
 
 const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) => {
-  const [isFavorite, setIsFavorite] = useState(() => {
-    const currentUser = localStorage.getItem('loggedIn')
-    if (!currentUser) return false
-    const userWishlists = JSON.parse(currentUser).wishlists
-    return userWishlists.some(wishlist =>
-      wishlist.perfumes.some(perfumeId => perfumeId === id),
+  const { user, updateUser } = useUser()
+  const [isFavorite, setIsFavorite] = useState(false)
+
+  useEffect(() => {
+    if (!user) return
+    const { wishlists } = user
+    setIsFavorite(
+      wishlists.some(wishlist => wishlist.perfumes.some(perfumeId => perfumeId === id)),
     )
-  })
+  }, [user, id])
   // move this function to a separate file
   // create a separate functionality for the local storage
 
   const toggleFavorite = () => {
-    const currentUser = localStorage.getItem('loggedIn')
-    if (!currentUser) return // TODO: open to login modal
+    if (!user) return // TODO: open to login modal
 
     fetch('/api/updateFavorites', {
       method: 'POST',
@@ -38,7 +40,7 @@ const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) =
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        userEmail: JSON.parse(currentUser).email,
+        userEmail: user.email,
         wishlistName: 'Default',
         productId: id,
       }),
@@ -53,14 +55,11 @@ const Card = ({ id, photo, title, brand, price, discount, volume }: CardProps) =
         if (!data) return
 
         const { wishlists } = data
-        localStorage.setItem(
-          'loggedIn',
-          JSON.stringify({
-            name: JSON.parse(currentUser).name,
-            email: JSON.parse(currentUser).email,
-            wishlists,
-          }),
-        )
+        updateUser({
+          name: user.name,
+          email: user.email,
+          wishlists,
+        })
         setIsFavorite((prevIsFavorite: boolean) => !prevIsFavorite)
       })
       .catch(() => {

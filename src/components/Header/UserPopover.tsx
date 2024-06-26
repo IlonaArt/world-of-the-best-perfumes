@@ -1,15 +1,13 @@
 import { Button, Popover, PopoverContent, PopoverTrigger } from '@chakra-ui/react'
 import { Text } from '@chakra-ui/react'
+import { useUser } from '../../contexts/user-context/UserContext'
 
 interface UserPopoverProps {
   userName: string
 }
 
 const UserPopover = ({ userName }: UserPopoverProps) => {
-  const logout = () => {
-    localStorage.removeItem('loggedIn')
-    window.location.reload()
-  }
+  const { logout } = useUser()
 
   return (
     <Popover>

@@ -7,6 +7,7 @@ import Header from './Header/Header'
 import Navigation from './Navigation'
 import { Page } from '../interfaces'
 import Footer from './Footer/Footer'
+import { UserContextProvider } from '../contexts/user-context/UserContext'
 
 interface Props {
   children?: ReactNode
@@ -24,10 +25,12 @@ const RootLayout = ({ children, title = 'World of the best perfumes', page }: Pr
         <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <ChakraProvider theme={theme}>
-        <Header />
-        <Navigation page={page} />
-        {children}
-        <Footer />
+        <UserContextProvider>
+          <Header />
+          <Navigation page={page} />
+          {children}
+          <Footer />
+        </UserContextProvider>
       </ChakraProvider>
     </Box>
   )

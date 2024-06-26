@@ -10,7 +10,8 @@ import {
   Button,
 } from '@chakra-ui/react'
 import { FormEvent, useState } from 'react'
-import { Perfume } from '../../interfaces'
+import { Perfume, User } from '../../interfaces'
+import { useUser } from '../../contexts/user-context/UserContext'
 
 interface LoginModalProps {
   onClose: () => void
@@ -18,23 +19,10 @@ interface LoginModalProps {
 
 interface ModalContentProps {
   onChangeModalType: () => void
-  onSuccess: () => void
+  onSuccess?: () => void
 }
 
 type ModalType = 'register' | 'login'
-
-interface Wishlist {
-  isSelected: boolean
-  name: string
-  perfumes: Partial<Perfume>[]
-}
-
-interface User {
-  name: string
-  password: string
-  email: string
-  wishlists: Wishlist[]
-}
 
 type ErrorType = 'emailEmpty' | 'passwordEmpty' | 'incorrectData' | 'userExists' | 'sww'
 
@@ -54,13 +42,12 @@ const getErrorText = (errorType: ErrorType) => {
   }
 }
 
-export type Users = { [email: string]: User }[]
-
 const isPasswordString = (password: string | number): password is string => {
   return typeof password === 'string'
 }
 
 const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
+  const { login } = useUser()
   const [loginErrorType, setLoginErrorType] = useState<ErrorType>(undefined)
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -98,14 +85,11 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
           return response.json()
         })
         .then(user => {
-          localStorage.setItem(
-            'loggedIn',
-            JSON.stringify({
-              name: user.name,
-              email: user.email,
-              wishlists: user.wishlists,
-            }),
-          )
+          login({
+            name: user.name,
+            email: user.email,
+            wishlists: user.wishlists,
+          })
           onSuccess()
         })
         .catch(() => {
@@ -164,8 +148,13 @@ const LoginModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) 
   )
 }
 
+interface RegisterUser extends User {
+  password: string
+}
+
 const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProps) => {
-  const [userData, setUserData] = useState<User>()
+  const { login } = useUser()
+  const [userData, setUserData] = useState<RegisterUser>()
   const [isPasswordCorrect, setIsPasswordCorrect] = useState(undefined)
   const [nameError, setNameError] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -197,10 +186,7 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
           setSubmitError(error)
           return
         }
-        localStorage.setItem(
-          'loggedIn',
-          JSON.stringify({ name: userData.name, email: userData.email, wishlists: [] }),
-        )
+        login({ name: userData.name, email: userData.email, wishlists: [] })
         onSuccess()
       })
       .catch(error => {
@@ -328,10 +314,6 @@ const RegisterModalContent = ({ onChangeModalType, onSuccess }: ModalContentProp
 const LoginModal = ({ onClose }: LoginModalProps) => {
   const [activeModal, setActiveModal] = useState<ModalType>('login')
 
-  const handleSuccess = () => {
-    window.location.reload()
-  }
-
   return (
     <Modal closeOnOverlayClick closeOnEsc isOpen onClose={onClose} isCentered>
       <ModalOverlay />
@@ -339,16 +321,10 @@ const LoginModal = ({ onClose }: LoginModalProps) => {
         <ModalHeader>{activeModal === 'login' ? 'Login' : 'Register'}</ModalHeader>
         <ModalCloseButton onClick={onClose} />
         {activeModal === 'login' && (
-          <LoginModalContent
-            onChangeModalType={() => setActiveModal('register')}
-            onSuccess={handleSuccess}
-          />
+          <LoginModalContent onChangeModalType={() => setActiveModal('register')} />
         )}
         {activeModal === 'register' && (
-          <RegisterModalContent
-            onChangeModalType={() => setActiveModal('login')}
-            onSuccess={handleSuccess}
-          />
+          <RegisterModalContent onChangeModalType={() => setActiveModal('login')} />
         )}
       </ModalContent>
     </Modal>

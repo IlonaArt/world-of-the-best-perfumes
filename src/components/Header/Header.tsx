@@ -5,16 +5,11 @@ import Cart from './Cart'
 import Wishlist from './Wishlist'
 import { Box, Flex } from '@chakra-ui/react'
 import UserPopover from './UserPopover'
+import { useUser } from '../../contexts/user-context/UserContext'
 
 const Header = () => {
-  const [userName, setUserName] = useState<string>()
-
-  useEffect(() => {
-    const userFromLocalStorage = localStorage.getItem('loggedIn')
-    if (userFromLocalStorage) {
-      setUserName(JSON.parse(userFromLocalStorage).name)
-    }
-  }, [])
+  const { user } = useUser()
+  const userName = user?.name
 
   return (
     <Flex

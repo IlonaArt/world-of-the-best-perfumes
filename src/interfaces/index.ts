@@ -24,3 +24,15 @@ export type SortType = (typeof SortTypes)[number]
 export const isSortType = (value: unknown): value is SortType => {
   return SortTypes.includes(value as SortType)
 }
+
+export interface Wishlist {
+  isSelected: boolean
+  name: string
+  perfumes: Partial<Perfume>[]
+}
+
+export interface User {
+  name: string
+  email: string
+  wishlists: Wishlist[]
+}
