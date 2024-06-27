@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useUser } from '../../contexts/user-context/UserContext'
-import { Flex, Button, Text, Select } from '@chakra-ui/react'
+import { Flex, Text, Select } from '@chakra-ui/react'
 import Card from '../Catalogue/PerfumeList/Card'
+import CreateWishlistButton from './CreateWishlistButton'
 
 const WishlistContent = () => {
   const { user, updateUser } = useUser()
@@ -84,7 +85,7 @@ const WishlistContent = () => {
     return (
       <Flex flexDirection="column" alignItems="center">
         <Text>Your wishlist is empty now, start to look for your new favs!</Text>
-        <Button>Create new list</Button>
+        <CreateWishlistButton />
       </Flex>
     )
   }
@@ -113,7 +114,7 @@ const WishlistContent = () => {
             ))}
           </Select>
         </label>
-        <Button onClick={createWishlist}>Create new list</Button>
+        <CreateWishlistButton />
       </aside>
       <Flex>
         {perfumes.map(perfume => (

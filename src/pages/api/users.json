@@ -7,18 +7,12 @@
       {
         "name": "Default",
         "isSelected": false,
-        "perfumes": [
-          3,
-          11,
-          18
-        ]
+        "perfumes": [3, 11, 18]
       },
       {
         "name": "New list",
         "isSelected": true,
-        "perfumes": [
-          8
-        ]
+        "perfumes": [8]
       }
     ]
   },
